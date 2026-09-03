@@ -2,87 +2,72 @@
 
 **One cockpit for all your websites.**
 
-WebFleet is a KISS (Keep It Simple) website portfolio monitor for individuals, small web builders and micro-agencies.
+Real HTTP, TLS, homepage-link, WordPress, and domain-expiry checks —
+running on a free, scheduled GitHub Action — that rank what actually
+needs your attention instead of showing ten columns of status you have
+to interpret yourself.
 
-Instead of logging into multiple platforms just to find out what needs attention, WebFleet gives you one simple dashboard for your entire website fleet.
+**Live demo:** https://grokipaedia.github.io/webfleet/
 
-## Demo
+## Setup — the real, current flow (not the old static-only one below)
 
-The included demo is a **static, zero-install prototype**. It uses sample websites so it can run directly from GitHub Pages.
+1. **Fork this repo** (or use "Use this template" if it's enabled on
+   the source repo).
+2. **Copy `sites.example.json` to `sites.json`**, and edit it with your
+   own domains. Plain strings work with no setup; an object with a
+   `wp_secret_key` enables authenticated WordPress plugin checks for
+   that site (see step 4).
+3. **Settings → Actions → General → Workflow permissions** → select
+   **"Read and write permissions."** The Action commits its own scan
+   results back to the repo and needs this to do that — it's off by
+   default on a fresh repo.
+4. **Settings → Pages** → Source: **Deploy from a branch** → `main` /
+   `/ (root)` → Save. Then **Actions → WebFleet Scan → Run workflow**
+   to trigger the first real scan manually, rather than waiting up to
+   6 hours for the schedule.
 
-It demonstrates:
+**For WordPress plugin checks on a site** (optional): create a real
+WordPress Application Password for it (**Users → Profile → Application
+Passwords**), then add two GitHub Secrets — one named exactly your
+chosen `wp_secret_key` (the WordPress username) and one named
+`WP_APP_PASSWORD_<that same key>` (the Application Password itself).
 
-- Website availability/status
-- SSL status
-- Domain status
-- Update status
-- Broken-link status
-- Last check
-- Portfolio summary
-- Filtering by problem type
+That's the whole real setup. Everything below is detail, history, and
+the full version-by-version roadmap — worth reading, not required to
+get running.
 
-> **Important:** The fleet dashboard above still uses simulated demo data — it does not scan or modify those sample sites. The separate "Check a real URL" tool further down **does** make a real outbound DNS query to whatever domain you enter (via a public DNS-over-HTTPS resolver), and attempts a basic connection. Nothing is modified on the target site either way. See the in-page caveat directly below that tool in `index.html` for exactly what it can and can't honestly tell you.
+---
 
-## KISS Install — 5 minutes
+## Run locally (for previewing UI changes, not real scanning)
 
-### Option A — easiest: GitHub website
-
-1. Create a new **public** GitHub repository named `webfleet`.
-2. Add the files from this repository.
-3. Make sure `index.html` is in the repository root.
-4. Go to **Settings → Pages**.
-5. Under **Build and deployment**, choose **Deploy from a branch**.
-6. Select the `main` branch and `/ (root)`.
-7. Save.
-8. GitHub will publish the demo at your Pages address.
-
-GitHub's documentation confirms that Pages can publish static files from a repository, including an `index.html` entry file.
-
-### Option B — GitHub CLI
-
-If you already have GitHub CLI installed:
-
-```bash
-gh repo create webfleet --public --source=. --push
-```
-
-Then enable GitHub Pages in the repository's Settings → Pages.
-
-## Run locally
-
-No server is required.
-
-Simply open:
+No server is required to view the page itself:
 
 ```text
 index.html
 ```
 
-in a browser.
-
-Or, if you have Python installed:
+opened directly in a browser, or:
 
 ```bash
 python -m http.server 8000
 ```
 
-Then open:
-
-```text
-http://localhost:8000
-```
+then `http://localhost:8000`. Note this only shows whatever
+`results.json` already exists — it doesn't run a real scan; that needs
+`python3 scan.py` (with `requests` installed) or the actual GitHub
+Action.
 
 ## Roadmap
 
 ### V1 — Portfolio visibility
 - [x] Single dashboard
-- [x] Demo fleet
+- [x] Demo fleet — now hidden behind a "Show V1 simulated demo data"
+      toggle, off by default, so a real visitor sees genuine findings
+      first, not a mix of real and simulated data on one screen
 - [x] Status indicators
 - [x] Filters
-- [x] KISS installation
-- [x] Header stats computed live from the fleet data (V1 shipped with these
-      hardcoded and silently wrong — fixed)
-- [ ] Add your own sites to the demo
+- [x] Header stats computed live from the fleet data (V1 shipped with
+      these hardcoded and silently wrong — fixed)
 
 ### V2 — Enter a URL, actually check it (real, with an honest ceiling)
 - [x] Real DNS resolution check, via a public DNS-over-HTTPS resolver
@@ -92,7 +77,8 @@ http://localhost:8000
       reading the real response (status code, headers, body) of a request
       to a different domain unless that domain explicitly grants permission
       (CORS) — that's a security restriction, not something skipped here.
-      See the "Check a real URL" section's in-page caveat in `index.html` for the full explanation.
+      See the "Check a real URL" section's in-page caveat in `index.html`
+      for the full explanation.
 
 ### V3 — Real scanning engine (shipped, via a scheduled GitHub Action)
 GitHub Pages only serves static files — it cannot run server-side code. So
@@ -100,8 +86,8 @@ the checks V2 couldn't do client-side (accurate status, SSL, broken links)
 run instead in a scheduled GitHub Action, which faces none of a browser's
 CORS restrictions. It writes `results.json`; the page fetches it same-origin
 (no CORS issue at all, since it's served from the same site) and renders it
-in a new "Live Scan Results" section, separate from the old V1 simulated
-demo — real and simulated data are never mixed into the same numbers.
+in a "Live Scan Results" section, separate from the V1 simulated demo —
+real and simulated data are never mixed into the same numbers.
 
 - [x] Real HTTP status + response time (`requests`, real status codes —
       not V2's opaque approximation)
@@ -114,25 +100,17 @@ demo — real and simulated data are never mixed into the same numbers.
       stand-in for a bigger one.
 - [x] Scheduled scans, every 6 hours, via `cron` in the workflow (plus a
       manual trigger button in the repo's Actions tab)
-- [ ] Email alerts — not built yet. The honest zero-config path is GitHub's
-      own notifications (watch the repo; a failed Action run notifies you
-      the way any Action failure does). Real email needs SMTP or a service
-      like SendGrid, which means adding your own credentials as GitHub
-      Secrets — a reasonable next addition, not included by default so V3
-      works with zero configuration beyond editing `sites.json`.
-
-#### Setting V3 up
-
-1. Edit `sites.json` — a plain JSON array of the domains you want scanned
-   (no `https://`, just the bare domain).
-2. Push to GitHub. Go to **Settings → Actions → General → Workflow
-   permissions**, and make sure **"Read and write permissions"** is
-   selected — the scan workflow commits `results.json` back to the repo,
-   which needs write access that isn't always on by default.
-3. Go to the **Actions** tab, select **"WebFleet Scan"**, and click **"Run
-   workflow"** to trigger the first scan manually rather than waiting up to
-   6 hours.
-4. Refresh the page — "Live Scan Results" should now show real data.
+- [x] A GitHub Actions **Job Summary** on every run — reports which
+      WordPress sites are missing credentials, whether alerting and
+      domain-expiry checks are actually working this run, right on the
+      run's own summary page. Built directly in response to a real
+      problem: earlier misconfiguration (a misplaced workflow file, then
+      later, missing secrets) failed completely silently for hours, with
+      no visible signal short of digging through raw logs.
+- [ ] Email alerts — not built. The honest zero-config path is GitHub's
+      own notifications (see "Alerting" below) — real email needs SMTP or
+      a service like SendGrid, a real added dependency not included by
+      default.
 
 **If you're testing `scan.py` locally** and the SSL issuer looks wrong (a
 company name that isn't the real certificate authority), you're very likely
@@ -142,9 +120,8 @@ the genuine certificate once running somewhere without that interception
 (GitHub Actions' own runners don't intercept traffic this way).
 
 ### V4 — "What needs my attention?" (shipped)
-A single prioritized list, now the first thing the dashboard shows — above
-the raw per-site grid, not replacing it. Two decisions this makes on your
-behalf, both real:
+A single prioritized list, the first thing the dashboard shows — above
+the raw per-site grid, not replacing it.
 
 - [x] **Ranked by actual severity, not column order.** A broken TLS
       certificate (breaks HTTPS for every visitor) ranks above an
@@ -152,125 +129,105 @@ behalf, both real:
       above a broken link on an otherwise-healthy page.
 - [x] **Confidence is stated honestly, not flattened.** Issues are tagged
       either `CONFIRMED` (a real visitor would hit the same problem — TLS
-      failures, 5xx errors, 404s, verified broken links) or `CHECK
-      MANUALLY` (a 401/403/406/429 — the classic signature of a WAF
-      blocking the scanner specifically, which may mean nothing is
-      actually wrong for real visitors). These are never shown as the
-      same severity of problem.
+      failures, 5xx errors, 404s, verified broken links, expiring domain
+      registrations) or `CHECK MANUALLY` (a 401/403/406/429 — the classic
+      signature of a WAF blocking the scanner specifically, which may
+      mean nothing is actually wrong for real visitors).
 - [x] A related root cause is shown once, not twice — a TLS failure that
-      also breaks the HTTP check surfaces as one card explaining both,
-      not two cards implying two unrelated problems.
+      also breaks the HTTP check surfaces as one card explaining both.
 - [x] A genuinely healthy fleet shows a clear "nothing needs attention"
       state, not an empty-looking page.
+- [x] A **stale-scan banner** — shown regardless of what else is on the
+      page, since a scan that silently stopped running would otherwise
+      look identical to "everything is healthy." Triggers past 8 hours
+      against the 6-hour schedule. Directly motivated by a real incident:
+      the Action sat broken for hours earlier tonight with zero visible
+      sign anything was wrong.
 
 ### V5 — WordPress version detection (shipped, no credentials)
 Detects whether a site runs WordPress via its own public generator tag
 (`<meta name="generator" content="WordPress X.Y.Z">`), and compares it
-against WordPress.org's own published latest version — the same public
-API WordPress core itself uses to check for updates.
+against WordPress.org's own published latest version.
 
 - [x] Detected purely from what a site already exposes publicly — no
       login, no API key, no credentials stored anywhere
 - [x] Real version comparison (not string comparison — `6.9` vs `6.10`
       is the classic trap a naive comparison gets backwards)
-- [x] Degrades honestly: if the generator tag was removed (common with
-      security plugins), reports "not detected" rather than guessing; if
-      WordPress.org's API is slow or unreachable, reports "couldn't
-      determine latest version" rather than failing the whole scan
+- [x] Degrades honestly: removed generator tag → "not detected"; slow or
+      unreachable WordPress.org API → "couldn't determine latest version"
 - [x] Distinguishes "checked and it's genuinely not WordPress" from
       "never got to check at all" — confirmed as a real, not theoretical,
       gap: IntentBound.com is WordPress, but the scanner's 403 response
-      (see the HTTP section above) meant the homepage HTML was never
-      fetched, so no generator-tag search was possible. The first version
-      of this check reported "not detected" identically in both cases;
-      it now reports "couldn't check — the homepage request itself
-      failed" for the second, honestly different, situation.
-- [x] Surfaces in the V4 attention panel as a `CONFIRMED` finding — this
-      is a verified fact from the site's own markup, not a scanner
-      artifact like an ambiguous 403
-
-**What this deliberately does not do**, and why that's a separate
-decision rather than a missing feature: it cannot see plugins, themes,
-whether backups exist or are current, or install anything. All of that
-needs authenticated access to each site (an Application Password or API
-key per domain) — a real architectural change from everything above,
-since V1 through this point never store a single credential. That's a
-legitimate direction, just not one to slide into as "just the next
-version number." A future addition, if wanted, would need its own
-explicit decision about credential storage (GitHub Secrets, most likely)
-before writing any code.
+      meant the homepage HTML was never fetched, so no generator-tag
+      search was possible. Now reports "couldn't check" for that case
+      specifically, instead of a misleading "not detected."
 
 ### V6 — Authenticated plugin update detection (shipped, 3 sites configured)
-The credentialed step V5 deliberately deferred. Uses WordPress's own
-**Application Passwords** (core feature since 5.6 — scoped, revocable,
-no admin password ever exposed) to read installed plugin versions via
-each site's own REST API, then cross-references each against
-WordPress.org's public plugin directory for a real latest-version
-comparison — same pattern already proven for WordPress core itself.
+Uses WordPress's own **Application Passwords** (core feature since 5.6 —
+scoped, revocable, no admin password ever exposed) to read installed
+plugin versions via each site's own REST API, then cross-references each
+against WordPress.org's public plugin directory for a real latest-version
+comparison.
 
-- [x] Read-only. Never installs, activates, or modifies anything on any
-      site — this is a GET request, nothing more.
-- [x] Per-site opt-in: `sites.json` entries can now be either a plain
-      domain string (unchanged, no authenticated checks) or an object
-      with a `wp_secret_key` (enables authenticated checks for that
-      site). Only sites that explicitly opt in are touched this way.
-- [x] Credentials never touch the repo. Read from GitHub Secrets at
-      Action runtime as environment variables, named by the site's own
-      short key (e.g. `CMG` for the username, `WP_APP_PASSWORD_CMG` for
-      the password) — verified directly during development that no
-      code path prints, logs, or otherwise exposes the actual values.
-- [x] Honest per-plugin outcome, not a blanket pass/fail: a plugin
-      that's actually listed on WordPress.org's public directory gets a
-      real "outdated: true/false." A premium, custom, or privately
-      distributed plugin — not on that directory — correctly reports
-      "can't determine" rather than guessing either way.
-- [x] Auth failures (e.g. a rotated or revoked Application Password)
-      surface honestly in the V4 attention panel as their own finding,
-      tagged `CHECK MANUALLY` — this reflects a problem with the
-      monitoring setup itself, not necessarily the site.
-- [ ] **Themes are not covered yet** — only plugins. An earlier version
-      of this plan mentioned both; only the plugin half got built in
-      this pass. A real, stated gap, not an oversight to gloss over.
-- [ ] Backups, and actually installing updates, remain deliberately
+- [x] Read-only. Never installs, activates, or modifies anything — a GET
+      request, nothing more.
+- [x] Per-site opt-in via `sites.json`'s `wp_secret_key` field.
+- [x] Credentials never touch the repo — read from GitHub Secrets at
+      Action runtime; verified directly that no code path prints or logs
+      the actual values.
+- [x] Honest per-plugin outcome: a plugin listed on WordPress.org gets a
+      real `outdated: true/false`. A premium or custom plugin not on that
+      directory correctly reports "can't determine" instead of guessing.
+- [x] Auth failures (a rotated Application Password) surface as their own
+      `CHECK MANUALLY` finding — a monitoring-setup problem, not
+      necessarily the site's.
+- [ ] **Themes are not covered yet** — only plugins.
+- [ ] Backups and actually installing updates remain deliberately
       unbuilt — those are write operations against production sites,
       unattended, on a schedule. A different, larger conversation.
 
+### V6.5 — Domain registration expiry, via real RDAP (shipped)
+A different, and for a domain portfolio arguably more important, risk
+than SSL expiry: losing a domain to non-renewal is permanent, a lapsed
+certificate is a same-day fix. Uses IANA's real bootstrap registry
+(`data.iana.org/rdap/dns.json`) to find each TLD's authoritative RDAP
+server, then queries it directly for the real registration expiry date.
+
+- [x] Real coverage, verified against the live registry before building
+      — not every TLD has RDAP support. Confirmed directly: `.ke` has a
+      real registered server; `.hk` currently has none at all. Reported
+      honestly ("expiry check not available for this TLD") rather than
+      silently omitted or guessed.
+- [x] Wider warning window than SSL (30 days vs. 14, given the higher
+      stakes), escalating to critical inside 7 days.
+- [x] Schema and failure handling verified against multiple independent
+      real sources before writing the parser, not assumed.
+
 ### Alerting — a single GitHub Issue, no new account or secret
-The one real gap the versions above didn't close: the dashboard updates
-every 6 hours, but nothing tells you when it does. Rather than add
-UptimeRobot or a Discord webhook — a second account, a second dashboard,
-a second thing that can disagree with WebFleet — this uses GitHub's own
-Issues API with the Action's built-in `GITHUB_TOKEN`. Zero new secrets,
-zero new services.
+The dashboard updates every 6 hours, but nothing told you when it did —
+until this. Rather than add UptimeRobot or a Discord webhook — a second
+account, a second dashboard, a second thing that can disagree with
+WebFleet — this uses GitHub's own Issues API with the Action's built-in
+`GITHUB_TOKEN`. Zero new secrets, zero new services.
 
 - [x] **Deliberately narrow**: only SSL failures, total connection
       failure, 5xx errors, and 404s create an alert. A 401/403/406/429
-      (the classic WAF-blocking-the-scanner signature) never does —
-      alerting on those would recreate the exact false-alarm noise the
-      whole confidence-tagging system exists to prevent. Confirmed by
-      testing against the real reported findings: Grokipaedia's
-      certificate mismatch alerts, IntentBound and Weather.KE's 403s
-      correctly stay silent.
-- [x] One tracking issue, not a flood: a persistent problem updates the
-      same issue rather than creating a new one every 6 hours; a
-      resolved problem closes it automatically with a timestamp, rather
-      than leaving a stale open issue behind.
-- [x] Coded defensively around a real, reported GitHub API quirk: a
-      GitHub community thread found that filtering issues by label via
-      the query parameter doesn't always return only matching issues —
-      results here are re-checked client-side (label AND title prefix)
-      before being treated as the tracking issue, confirmed by testing
-      the exact scenario where an unrelated, mislabeled issue is present.
-- [x] The same SSL/HTTP root-cause deduplication already built into the
-      dashboard is mirrored here — one alert for one underlying problem,
-      not two for the same certificate failure.
+      never does — alerting on those would recreate the exact false-alarm
+      noise the whole confidence-tagging system exists to prevent.
+      Confirmed against real reported findings: Grokipaedia's certificate
+      mismatch alerts, IntentBound and Weather.KE's 403s stay silent.
+- [x] One tracking issue, not a flood — updates in place while a problem
+      persists, closes itself automatically with a timestamp once resolved.
+- [x] Coded defensively around a real, reported GitHub API quirk: label
+      filtering via the query parameter doesn't always return only
+      matching issues — results are re-checked client-side before being
+      trusted.
+- [x] The same SSL/HTTP root-cause deduplication built into the dashboard
+      is mirrored here — one alert per underlying problem, not two.
 
-**Setup**: none beyond what V6 already needed. `GITHUB_TOKEN` is
-automatic in every Action run; this just needs `issues: write` added to
-the workflow's permissions (already done). Notifications arrive however
-you've configured GitHub's own notification settings for this repo (the
-"Watch" button, email, or the GitHub mobile app) — no new account to
-create.
+**Confirmed working live**: the first real scheduled run correctly
+detected Grokipaedia's certificate mismatch and opened a tracking Issue
+automatically, with zero manual intervention beyond the initial trigger.
 
 ### Noted for later — not decided, not scheduled
 Ideas worth remembering, deliberately not committed to a version number.
@@ -280,20 +237,15 @@ building, don't just list a feature name and assume it's simple.
 - **DNS / nameserver / MX checks** — the most straightforward of the
   three technically (Python's `dnspython` handles this directly, no new
   service or bootstrap registry needed), but still needs a real decision
-  about what's actually worth flagging (a nameserver mismatch? a missing
-  MX record for a domain that's supposed to send mail? both need
-  deciding, not just "check DNS").
+  about what's actually worth flagging.
 - **Content change / obvious error page detection** — genuinely useful,
   genuinely harder than it sounds: telling "the homepage legitimately
-  changed" apart from "something broke and now shows an error page"
-  from a raw HTML diff is a real false-positive risk, not a small
-  addition. Needs its own design pass before any code, the same way RDAP
-  got one.
+  changed" apart from "something broke" from a raw HTML diff is a real
+  false-positive risk, not a small addition.
 - **Portfolio-level views** — abandoned projects, domains with no active
-  site behind them. Interesting, but needs `sites.json` itself to carry
-  more meaning first (e.g. marking a domain as "parked, not expected to
-  serve a site") — otherwise there's no way to tell "abandoned" apart
-  from "just quiet."
+  site behind them. Needs `sites.json` itself to carry more meaning
+  first (e.g. marking a domain "parked") — otherwise there's no way to
+  tell "abandoned" apart from "just quiet."
 
 ### V7 — Multi-platform
 Potential integrations for other website platforms and hosting providers.

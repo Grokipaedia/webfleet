@@ -272,6 +272,29 @@ you've configured GitHub's own notification settings for this repo (the
 "Watch" button, email, or the GitHub mobile app) — no new account to
 create.
 
+### Noted for later — not decided, not scheduled
+Ideas worth remembering, deliberately not committed to a version number.
+Same discipline as everything above: verify the real mechanism before
+building, don't just list a feature name and assume it's simple.
+
+- **DNS / nameserver / MX checks** — the most straightforward of the
+  three technically (Python's `dnspython` handles this directly, no new
+  service or bootstrap registry needed), but still needs a real decision
+  about what's actually worth flagging (a nameserver mismatch? a missing
+  MX record for a domain that's supposed to send mail? both need
+  deciding, not just "check DNS").
+- **Content change / obvious error page detection** — genuinely useful,
+  genuinely harder than it sounds: telling "the homepage legitimately
+  changed" apart from "something broke and now shows an error page"
+  from a raw HTML diff is a real false-positive risk, not a small
+  addition. Needs its own design pass before any code, the same way RDAP
+  got one.
+- **Portfolio-level views** — abandoned projects, domains with no active
+  site behind them. Interesting, but needs `sites.json` itself to carry
+  more meaning first (e.g. marking a domain as "parked, not expected to
+  serve a site") — otherwise there's no way to tell "abandoned" apart
+  from "just quiet."
+
 ### V7 — Multi-platform
 Potential integrations for other website platforms and hosting providers.
 

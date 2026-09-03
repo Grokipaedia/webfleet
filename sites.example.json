@@ -1,0 +1,9 @@
+[
+  {
+    "domain": "example.com"
+  },
+  {
+    "domain": "yourwordpresssite.com",
+    "wp_secret_key": "YOURSITE"
+  }
+]

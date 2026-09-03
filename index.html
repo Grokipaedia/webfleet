@@ -48,6 +48,8 @@ button:disabled{opacity:0.5;cursor:not-allowed}
 .confidence-tag.confirmed{background:#fee2e2;color:#991b1b}
 .confidence-tag.uncertain{background:#fef3c7;color:#92400e}
 .all-clear{padding:24px;text-align:center;color:var(--green);font-weight:700;font-size:16px}
+.hidden{display:none}
+.link-btn{background:none;border:none;padding:0;color:var(--blue);text-decoration:underline;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
@@ -76,6 +78,11 @@ button:disabled{opacity:0.5;cursor:not-allowed}
 <div class="fleet" id="scanFleet"></div>
 </section>
 
+<div style="text-align:center;margin:8px 0 24px;">
+  <button id="demoToggleBtn" class="link-btn" style="font-size:13px;">Show V1 simulated demo data ▾</button>
+</div>
+
+<div id="demoSection" class="hidden">
 <section class="panel">
 <div class="controls">
 <button class="active" data-filter="all">All</button>
@@ -86,7 +93,8 @@ button:disabled{opacity:0.5;cursor:not-allowed}
 </section>
 
 <section class="fleet" id="fleet"></section>
-<div class="demo">The section below is the original V1 demo — simulated example data only, kept for reference. Real data is in "Live Scan Results" above, once the Action has run at least once.</div>
+<div class="demo">The section above is the original V1 demo — simulated example data only, kept for reference. Real data is in "Live Scan Results" further up, once the Action has run at least once.</div>
+</div>
 
 <section class="panel" style="margin-top:24px;">
 <h3 style="margin-top:0;">Check a real URL (V2 — DNS check is real, everything else is honestly limited)</h3>
@@ -167,6 +175,13 @@ document.querySelectorAll(".controls button").forEach(b=>{
   document.querySelectorAll(".controls button").forEach(x=>x.classList.remove("active"));
   b.classList.add("active"); render(b.dataset.filter);
  };
+});
+
+document.getElementById("demoToggleBtn").addEventListener("click", () => {
+  const section = document.getElementById("demoSection");
+  const btn = document.getElementById("demoToggleBtn");
+  const nowHidden = section.classList.toggle("hidden");
+  btn.textContent = nowHidden ? "Show V1 simulated demo data ▾" : "Hide V1 simulated demo data ▴";
 });
 
 // ---- V2: real URL checking ----
@@ -391,6 +406,24 @@ function generateIssues(sites){
       });
     }
 
+    // Domain registration expiry — different from, and arguably more
+    // serious than, SSL expiry: losing a domain to non-renewal is
+    // permanent, a lapsed certificate is a same-day fix. Wider warning
+    // window (30 days) than SSL's 14, escalating to critical inside 7.
+    if (s.domain_expiry && s.domain_expiry.checked && s.domain_expiry.days_remaining !== null){
+      const days = s.domain_expiry.days_remaining;
+      if (days < 30){
+        issues.push({
+          domain: s.domain, category: "Domain", confidence: "confirmed",
+          severity: days < 7 ? 97 : 65,
+          headline: `Domain registration expires in ${days} day${days === 1 ? "" : "s"}`,
+          detail: days < 7
+            ? "Losing this domain to non-renewal is permanent, unlike a lapsed SSL certificate. Renew immediately."
+            : "Renew before this lapses — verified against the domain's real RDAP registration record, not an estimate.",
+        });
+      }
+    }
+
     // Outdated WordPress core — a verified fact (the site's own generator
     // tag, compared against WordPress.org's own published latest version),
     // not a scanner artifact, so this gets "confirmed" like a real
@@ -447,14 +480,29 @@ function renderAttentionPanel(data){
     return;
   }
 
+  // Stale-scan banner — shown regardless of what else is on the page,
+  // since a scan that stopped running silently would otherwise look
+  // identical to "everything is healthy." Confirmed this matters
+  // directly: this exact scenario happened for real before this was
+  // added — the Action was misconfigured for hours with no visible sign
+  // anything was wrong. Threshold is 8 hours against a 6-hour schedule,
+  // giving one missed run of slack before flagging it.
+  const hoursSinceLastScan = (Date.now() - new Date(data.generated_at).getTime()) / 3600000;
+  const staleBanner = hoursSinceLastScan > 8
+    ? `<div class="issue-card sev-critical" style="margin-bottom:14px;">
+        <div class="issue-headline">⚠ Data may be stale — last successful scan was ${Math.round(hoursSinceLastScan)} hours ago</div>
+        <div class="issue-detail">The scan is scheduled to run every 6 hours. Being this far out of date usually means the GitHub Action stopped running — check the repo's Actions tab.</div>
+      </div>`
+    : "";
+
   const issues = generateIssues(data.sites);
 
   if (issues.length === 0){
-    el.innerHTML = `<div class="all-clear">✓ Nothing needs your attention — all ${data.sites.length} site${data.sites.length === 1 ? "" : "s"} ${data.sites.length === 1 ? "is" : "are"} healthy.</div>`;
+    el.innerHTML = staleBanner + `<div class="all-clear">✓ Nothing needs your attention — all ${data.sites.length} site${data.sites.length === 1 ? "" : "s"} ${data.sites.length === 1 ? "is" : "are"} healthy.</div>`;
     return;
   }
 
-  el.innerHTML = issues.map(i => `
+  el.innerHTML = staleBanner + issues.map(i => `
     <div class="issue-card ${severityClass(i.severity)}">
       <div class="issue-head">
         <div>
@@ -514,10 +562,16 @@ function renderScanResults(data){
       : (wpPlugins && !wpPlugins.checked && wpPlugins.reason !== "no credentials configured for this site")
       ? `<div class="scan-detail" style="margin-top:2px;">Plugin check: ${wpPlugins.reason}</div>`
       : "";
+    const dom = s.domain_expiry;
+    const domainLine = (dom && dom.checked)
+      ? `<div class="scan-detail" style="margin-top:2px;">Domain: ${dom.days_remaining < 30 ? `<span class="${dom.days_remaining < 7 ? 'bad' : 'warn'}">expires in ${dom.days_remaining}d</span>` : `renews ${dom.days_remaining}d out`}</div>`
+      : (dom && dom.reason && dom.reason.includes("no RDAP server"))
+      ? `<div class="scan-detail" style="margin-top:2px;">Domain: expiry check not available for this TLD</div>`
+      : "";
 
     return `
     <div class="scan-site">
-      <div><div class="domain">${s.domain}</div><div class="scan-detail">${fmtAgo(s.checked_at)}</div>${wpLine}${pluginLine}</div>
+      <div><div class="domain">${s.domain}</div><div class="scan-detail">${fmtAgo(s.checked_at)}</div>${wpLine}${pluginLine}${domainLine}</div>
       <div class="${httpCls}">${httpLabel}<div class="small">HTTP</div></div>
       <div class="${sslCls}">${sslLabel}<div class="small">SSL</div><div class="scan-detail">${s.ssl.ok ? (s.ssl.issuer || "") : (s.ssl.error || "")}</div></div>
       <div><b>${respLabel}</b><div class="small">Response</div></div>

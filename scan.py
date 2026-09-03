@@ -598,6 +598,58 @@ def sync_github_alert_issue(all_alerts: list):
                 print(f"Could not close alert issue: {e}")
 
 
+def write_job_summary(entries, results):
+    """Writes a real GitHub Actions Job Summary — directly targets the
+    exact failure mode that caused hours of silent debugging earlier
+    tonight: a misconfigured site (missing secret, workflow file in the
+    wrong path, etc.) produced no visible signal anywhere except digging
+    through raw logs. This surfaces configuration problems on the run's
+    summary page immediately. Confirmed real, documented GitHub behavior
+    before using it — no-ops silently if GITHUB_STEP_SUMMARY isn't set
+    (e.g. running locally), the same pattern real GitHub tooling uses."""
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        return
+
+    lines = ["## WebFleet Scan Summary", "", f"**Sites scanned:** {len(results)}", ""]
+
+    lines.append("### Results")
+    lines.append("| Domain | Status |")
+    lines.append("|---|---|")
+    status_emoji = {"ok": "🟢 OK", "warn": "🟡 WARN", "bad": "🔴 BAD"}
+    for r in results:
+        lines.append(f"| {r['domain']} | {status_emoji.get(r['overall'], r['overall'])} |")
+    lines.append("")
+
+    # WordPress credential configuration check — the exact class of
+    # problem that silently failed differently for different sites
+    # earlier tonight.
+    wp_sites = [e for e in entries if isinstance(e, dict) and e.get("wp_secret_key")]
+    if wp_sites:
+        lines.append("### WordPress plugin-check configuration")
+        lines.append("| Site | Secret key | Credentials found |")
+        lines.append("|---|---|---|")
+        for e in wp_sites:
+            key = e["wp_secret_key"]
+            found = bool(os.environ.get(key)) and bool(os.environ.get(f"WP_APP_PASSWORD_{key}"))
+            status = "✅ found" if found else "❌ missing — plugin checks skipped for this site"
+            lines.append(f"| {e.get('domain')} | `{key}` | {status} |")
+        lines.append("")
+
+    lines.append("### Environment")
+    token_ok = bool(os.environ.get("GITHUB_TOKEN"))
+    lines.append(f"- `GITHUB_TOKEN` available (enables auto-alerting): {'✅' if token_ok else '❌ — critical findings will not open an Issue this run'}")
+    bootstrap = get_rdap_bootstrap()
+    bootstrap_line = f"✅ ({len(bootstrap)} TLDs covered)" if bootstrap else "❌ — domain expiry checks unavailable this run"
+    lines.append(f"- RDAP bootstrap loaded: {bootstrap_line}")
+
+    try:
+        with open(summary_path, "a") as f:
+            f.write("\n".join(lines) + "\n")
+    except OSError as e:
+        print(f"Could not write job summary: {e}", file=sys.stderr)
+
+
 def main():
     try:
         with open("sites.json") as f:
@@ -633,6 +685,8 @@ def main():
     for r in results:
         all_alerts.extend(get_critical_alerts(r))
     sync_github_alert_issue(all_alerts)
+
+    write_job_summary(entries, results)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,9 @@
+[
+  {"domain": "Grokipaedia.com"},
+  {"domain": "IntentBound.com", "wp_secret_key": "IBOUND"},
+  {"domain": "AIPayHQ.com", "wp_secret_key": "AIPAY"},
+  {"domain": "Holidays.HK"},
+  {"domain": "RSIForge.com"},
+  {"domain": "Weather.KE"},
+  {"domain": "ChiangmaiGolfCourses.com", "wp_secret_key": "CMG"}
+]

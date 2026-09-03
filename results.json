@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-03T05:40:10.735529+00:00",
+  "generated_at": "2026-09-03T10:22:58.891079+00:00",
   "sites": [
     {
       "domain": "Grokipaedia.com",
-      "checked_at": "2026-09-03T05:39:54.814398+00:00",
+      "checked_at": "2026-09-03T10:22:24.602373+00:00",
       "overall": "bad",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 772,
+        "response_time_ms": 456,
         "final_url": "https://www.grokipaedia.com/",
         "error": null
       },
@@ -19,6 +19,12 @@
         "days_remaining": null,
         "issuer": null,
         "error": "Hostname mismatch, certificate is not valid for 'Grokipaedia.com'."
+      },
+      "domain_expiry": {
+        "checked": true,
+        "reason": null,
+        "expires": "2026-10-05T08:07:09+00:00",
+        "days_remaining": 31
       },
       "links": {
         "checked": 15,
@@ -36,12 +42,12 @@
     },
     {
       "domain": "IntentBound.com",
-      "checked_at": "2026-09-03T05:39:55.325055+00:00",
+      "checked_at": "2026-09-03T10:22:25.074415+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 136,
+        "response_time_ms": 171,
         "final_url": "https://intentbound.com/",
         "error": null
       },
@@ -52,6 +58,12 @@
         "days_remaining": 71,
         "issuer": "Google Trust Services",
         "error": null
+      },
+      "domain_expiry": {
+        "checked": true,
+        "reason": null,
+        "expires": "2027-01-22T04:21:56+00:00",
+        "days_remaining": 140
       },
       "links": {
         "checked": 0,
@@ -74,12 +86,12 @@
     },
     {
       "domain": "AIPayHQ.com",
-      "checked_at": "2026-09-03T05:39:58.289061+00:00",
+      "checked_at": "2026-09-03T10:22:30.962217+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 412,
+        "response_time_ms": 1284,
         "final_url": "https://aipayhq.com/",
         "error": null
       },
@@ -90,6 +102,12 @@
         "days_remaining": 60,
         "issuer": "Let's Encrypt",
         "error": null
+      },
+      "domain_expiry": {
+        "checked": true,
+        "reason": null,
+        "expires": "2027-05-22T00:13:45+00:00",
+        "days_remaining": 260
       },
       "links": {
         "checked": 10,
@@ -117,12 +135,12 @@
     },
     {
       "domain": "Holidays.HK",
-      "checked_at": "2026-09-03T05:40:03.233445+00:00",
+      "checked_at": "2026-09-03T10:22:37.738174+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 233,
+        "response_time_ms": 392,
         "final_url": "https://holidays.hk/",
         "error": null
       },
@@ -133,6 +151,12 @@
         "days_remaining": 60,
         "issuer": "Let's Encrypt",
         "error": null
+      },
+      "domain_expiry": {
+        "checked": false,
+        "reason": "no RDAP server registered for .hk",
+        "expires": null,
+        "days_remaining": null
       },
       "links": {
         "checked": 13,
@@ -155,12 +179,12 @@
     },
     {
       "domain": "RSIForge.com",
-      "checked_at": "2026-09-03T05:40:04.197115+00:00",
+      "checked_at": "2026-09-03T10:22:39.489671+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 318,
+        "response_time_ms": 399,
         "final_url": "https://rsiforge.com/",
         "error": null
       },
@@ -171,6 +195,12 @@
         "days_remaining": 60,
         "issuer": "Let's Encrypt",
         "error": null
+      },
+      "domain_expiry": {
+        "checked": true,
+        "reason": null,
+        "expires": "2027-05-20T07:21:02+00:00",
+        "days_remaining": 258
       },
       "links": {
         "checked": 2,
@@ -193,12 +223,12 @@
     },
     {
       "domain": "Weather.KE",
-      "checked_at": "2026-09-03T05:40:04.753460+00:00",
+      "checked_at": "2026-09-03T10:22:51.017489+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 369,
+        "response_time_ms": 392,
         "final_url": "https://weather.ke/",
         "error": null
       },
@@ -209,6 +239,12 @@
         "days_remaining": 32,
         "issuer": "Google Trust Services",
         "error": null
+      },
+      "domain_expiry": {
+        "checked": false,
+        "reason": "RDAP query error: HTTPSConnectionPool(host='rdap.kenic.or.ke', port=443): Read timed out. (read timeout=10)",
+        "expires": null,
+        "days_remaining": null
       },
       "links": {
         "checked": 0,
@@ -226,12 +262,12 @@
     },
     {
       "domain": "ChiangmaiGolfCourses.com",
-      "checked_at": "2026-09-03T05:40:10.735409+00:00",
+      "checked_at": "2026-09-03T10:22:58.890984+00:00",
       "overall": "ok",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 684,
+        "response_time_ms": 734,
         "final_url": "https://chiangmaigolfcourses.com/",
         "error": null
       },
@@ -242,6 +278,12 @@
         "days_remaining": 60,
         "issuer": "Let's Encrypt",
         "error": null
+      },
+      "domain_expiry": {
+        "checked": true,
+        "reason": null,
+        "expires": "2026-11-25T10:24:07+00:00",
+        "days_remaining": 83
       },
       "links": {
         "checked": 12,

@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WebFleet — Website Portfolio Dashboard</title>
+<style>
+:root{--bg:#f5f7fa;--card:#fff;--text:#172033;--muted:#687386;--line:#e5e9ef;--green:#16834b;--amber:#a66b00;--red:#c53939;--blue:#2457d6}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+header{background:#111827;color:#fff;padding:28px 20px}
+.wrap{max-width:1100px;margin:auto}.brand{font-size:30px;font-weight:800}.tag{color:#b9c2d0;margin-top:6px}
+main{padding:24px 20px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat,.panel,.site{background:var(--card);border:1px solid var(--line);border-radius:14px}
+.stat{padding:18px}.num{font-size:28px;font-weight:800}.label{color:var(--muted);font-size:13px;margin-top:4px}
+.panel{padding:16px;margin-bottom:20px}.controls{display:flex;gap:10px;flex-wrap:wrap}
+button{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 13px;cursor:pointer;font-size:14px}
+button.active{background:#111827;color:#fff}
+button:disabled{opacity:0.5;cursor:not-allowed}
+.fleet{display:grid;gap:10px}.site{padding:16px;display:grid;grid-template-columns:1.6fr repeat(5,1fr);gap:10px;align-items:center}
+.site:hover{box-shadow:0 3px 14px #0000000b}.domain{font-weight:700}.small{font-size:12px;color:var(--muted)}
+.ok{color:var(--green);font-weight:700}.warn{color:var(--amber);font-weight:700}.bad{color:var(--red);font-weight:700}.pending{color:var(--muted);font-weight:700}
+.scan-site{padding:16px;display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:10px}
+.scan-detail{font-size:11px;color:var(--muted);margin-top:2px}
+.scan-empty{padding:20px;text-align:center;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:14px;font-size:14px;line-height:1.6}
+@media(max-width:800px){.scan-site{grid-template-columns:1fr 1fr}}
+.demo{margin-top:20px;color:var(--muted);font-size:13px;text-align:center}
+.checker{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.checker input{flex:1;min-width:220px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:14px}
+.checker button{background:var(--blue);color:#fff;border-color:var(--blue)}
+.check-result{margin-top:14px;padding:14px;background:#f9fafb;border-radius:10px;border:1px solid var(--line);font-size:14px;display:none}
+.check-result.show{display:block}
+.check-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)}
+.check-row:last-child{border-bottom:none}
+.caveat{margin-top:10px;font-size:12px;color:var(--muted);font-style:italic;line-height:1.5}
+@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}.site{grid-template-columns:1fr 1fr 1fr}.site .wide{grid-column:span 3}}
+@media(max-width:500px){.stats{grid-template-columns:1fr}.site{grid-template-columns:1fr 1fr}.site .wide{grid-column:span 2}}
+
+.attention-panel{border-width:2px}
+.issue-card{padding:16px;border-radius:12px;margin-bottom:10px;border-left:5px solid var(--line)}
+.issue-card.sev-critical{background:#fef2f2;border-left-color:var(--red)}
+.issue-card.sev-warning{background:#fffbeb;border-left-color:var(--amber)}
+.issue-card.sev-minor{background:#f0fdf4;border-left-color:var(--green)}
+.issue-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+.issue-domain{font-weight:800;font-size:15px}
+.issue-headline{font-weight:700;margin-top:4px}
+.issue-detail{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5}
+.confidence-tag{font-size:11px;padding:3px 9px;border-radius:999px;font-weight:700;white-space:nowrap}
+.confidence-tag.confirmed{background:#fee2e2;color:#991b1b}
+.confidence-tag.uncertain{background:#fef3c7;color:#92400e}
+.all-clear{padding:24px;text-align:center;color:var(--green);font-weight:700;font-size:16px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="brand">WebFleet</div>
+<div class="tag">One cockpit for all your websites.</div>
+</div></header>
+
+<main class="wrap">
+
+<section class="panel attention-panel" id="attentionPanel" style="margin-bottom:24px;">
+<h3 style="margin-top:0;">What Needs My Attention (V4)</h3>
+<div id="attentionList">Loading...</div>
+</section>
+
+<section class="stats">
+<div class="stat"><div class="num" id="total">0</div><div class="label">Websites</div></div>
+<div class="stat"><div class="num ok" id="ok">0</div><div class="label">OK</div></div>
+<div class="stat"><div class="num warn" id="warn">0</div><div class="label">Warnings</div></div>
+<div class="stat"><div class="num bad" id="bad">0</div><div class="label">Critical</div></div>
+</section>
+
+<section class="panel" style="margin-top:24px;">
+<h3 style="margin-top:0;">Full Live Scan Results (V3 — real, from a scheduled GitHub Action)</h3>
+<div id="scanMeta" style="font-size:13px;color:var(--muted);margin-bottom:14px;">Loading...</div>
+<div class="fleet" id="scanFleet"></div>
+</section>
+
+<section class="panel">
+<div class="controls">
+<button class="active" data-filter="all">All</button>
+<button data-filter="ok">OK</button>
+<button data-filter="warn">Warning</button>
+<button data-filter="bad">Critical</button>
+</div>
+</section>
+
+<section class="fleet" id="fleet"></section>
+<div class="demo">The section below is the original V1 demo — simulated example data only, kept for reference. Real data is in "Live Scan Results" above, once the Action has run at least once.</div>
+
+<section class="panel" style="margin-top:24px;">
+<h3 style="margin-top:0;">Check a real URL (V2 — DNS check is real, everything else is honestly limited)</h3>
+<div class="checker">
+  <input type="text" id="urlInput" placeholder="example.com" autocomplete="off" spellcheck="false" />
+  <button id="checkBtn">Check</button>
+</div>
+<div class="check-result" id="checkResult"></div>
+<p class="caveat">
+  <strong>What this can actually tell you, honestly:</strong> the DNS check is real — it queries a public DNS-over-HTTPS
+  resolver and reports whether the domain actually resolves. The reachability check can only detect a hard network
+  failure (DNS totally failing, or the connection being refused outright) — browsers do not allow a page to read the
+  real HTTP status code, headers, or body of a request to a different domain unless that domain explicitly permits it
+  (a security restriction called CORS, not a shortcut taken here). That means this page cannot honestly tell you
+  whether a site returns a 200, a 404, or a 500 — only whether a connection attempt didn't immediately fail.
+  SSL certificate details and broken-link scanning aren't shown at all in this version, because neither is possible
+  from a page like this running entirely in your browser — both genuinely require a small backend or a GitHub Action
+  making the request server-side, which is the planned next step (V3), not something skipped here.
+</p>
+</section>
+</main>
+
+<script>
+const sites=[
+["Grokipaedia.com","ok","ok","ok","ok","2 min"],
+["Robotaxied.com","ok","ok","ok","ok","4 min"],
+["GoverningLayer.com","ok","ok","ok","ok","5 min"],
+["IntentBound.com","ok","ok","ok","ok","6 min"],
+["RSIForge.com","ok","ok","warn","ok","7 min"],
+["AgenticEtiquette.com","ok","ok","ok","ok","8 min"],
+["TheIoMT.com","ok","ok","ok","ok","9 min"],
+["ExampleBuilder.com","warn","warn","ok","ok","11 min"],
+["ExamplePortfolio.com","ok","ok","warn","ok","13 min"],
+["ExampleBroken.com","bad","ok","ok","bad","1 min"]
+];
+
+const labels={ok:"OK",warn:"Warning",bad:"Critical"};
+const cls={ok:"ok",warn:"warn",bad:"bad"};
+
+// Overall status for a site = the worst of its 4 individual status columns.
+// A site with any "bad" column is Critical; any "warn" (and no "bad") is
+// Warning; otherwise OK. Used consistently for both filtering and the
+// header stats below, so the two can never silently disagree the way the
+// V1 hardcoded header numbers did.
+function overallStatus(row){
+  const statuses = row.slice(1,5);
+  if (statuses.includes("bad")) return "bad";
+  if (statuses.includes("warn")) return "warn";
+  return "ok";
+}
+
+function updateStats(){
+  const counts = {ok:0, warn:0, bad:0};
+  sites.forEach(s => { counts[overallStatus(s)]++; });
+  document.getElementById("total").textContent = sites.length;
+  document.getElementById("ok").textContent = counts.ok;
+  document.getElementById("warn").textContent = counts.warn;
+  document.getElementById("bad").textContent = counts.bad;
+}
+
+function render(filter="all"){
+ const el=document.getElementById("fleet");
+ el.innerHTML=sites.filter(s=>filter==="all"||s.some(x=>x===filter)).map(s=>`
+ <article class="site">
+   <div class="wide"><div class="domain">${s[0]}</div><div class="small">Website</div></div>
+   <div class="${cls[s[1]]}">${labels[s[1]]}<div class="small">Site</div></div>
+   <div class="${cls[s[2]]}">${labels[s[2]]}<div class="small">SSL</div></div>
+   <div class="${cls[s[3]]}">${labels[s[3]]}<div class="small">Updates</div></div>
+   <div class="${cls[s[4]]}">${labels[s[4]]}<div class="small">Links</div></div>
+   <div><b>${s[5]}</b><div class="small">Last check</div></div>
+ </article>`).join("");
+}
+updateStats();
+render();
+
+document.querySelectorAll(".controls button").forEach(b=>{
+ b.onclick=()=>{
+  document.querySelectorAll(".controls button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); render(b.dataset.filter);
+ };
+});
+
+// ---- V2: real URL checking ----
+
+function normalizeHost(input){
+  let v = input.trim();
+  v = v.replace(/^https?:\/\//i, "").replace(/\/.*$/, "");
+  return v;
+}
+
+async function checkDNS(host){
+  try {
+    const resp = await fetch(
+      `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(host)}&type=A`,
+      { headers: { accept: "application/dns-json" } }
+    );
+    if (!resp.ok) return { ok: false, detail: `DNS query failed (HTTP ${resp.status} from resolver)` };
+    const data = await resp.json();
+    // Status 0 = NOERROR (per RFC 8484 / Cloudflare's JSON schema). Answer
+    // array present with real records means the name actually resolves.
+    if (data.Status === 0 && Array.isArray(data.Answer) && data.Answer.length > 0) {
+      const ips = data.Answer.filter(a => a.type === 1).map(a => a.data);
+      return { ok: true, detail: ips.length ? `Resolves to ${ips.join(", ")}` : "Resolves (no A record in answer)" };
+    }
+    if (data.Status === 3) return { ok: false, detail: "NXDOMAIN — this domain does not exist" };
+    return { ok: false, detail: `No valid A record found (resolver status ${data.Status})` };
+  } catch (e) {
+    return { ok: false, detail: `DNS query itself failed to run: ${e.message}` };
+  }
+}
+
+async function checkReachability(host){
+  const url = `https://${host}/`;
+  try {
+    // no-cors mode: the ONLY way to attempt a cross-origin request without
+    // the target's explicit permission. It deliberately returns an opaque
+    // response — we cannot read status, headers, or body. A resolved
+    // promise here means "a connection was attempted and didn't throw at
+    // the network level," not "the site returned 200." Many real error
+    // pages (404, 500, even some down sites behind certain proxies) will
+    // still resolve here. This is a hard browser limitation, not a bug.
+    await fetch(url, { mode: "no-cors", cache: "no-store" });
+    return { attempted: true, detail: "Connection attempt did not fail outright (cannot confirm real HTTP status from a browser)" };
+  } catch (e) {
+    return { attempted: false, detail: `Connection attempt failed outright: ${e.message}` };
+  }
+}
+
+document.getElementById("checkBtn").addEventListener("click", async () => {
+  const raw = document.getElementById("urlInput").value;
+  const host = normalizeHost(raw);
+  const resultEl = document.getElementById("checkResult");
+  const btn = document.getElementById("checkBtn");
+
+  if (!host) {
+    resultEl.className = "check-result show";
+    resultEl.innerHTML = `<div class="check-row"><span>Enter a domain first, e.g. <code>example.com</code></span></div>`;
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Checking…";
+  resultEl.className = "check-result show";
+  resultEl.innerHTML = `<div class="check-row"><span>Checking ${host}…</span></div>`;
+
+  const dns = await checkDNS(host);
+  const reach = dns.ok ? await checkReachability(host) : { attempted: false, detail: "Skipped — DNS did not resolve" };
+
+  resultEl.innerHTML = `
+    <div class="check-row"><span><b>${host}</b></span><span>${new Date().toLocaleTimeString()}</span></div>
+    <div class="check-row"><span>DNS resolution</span><span class="${dns.ok ? "ok" : "bad"}">${dns.ok ? "✓ Resolves" : "✗ Failed"}</span></div>
+    <div class="check-row"><span style="color:var(--muted);font-size:12px;">${dns.detail}</span></div>
+    <div class="check-row"><span>Reachability (limited — see caveat below)</span><span class="${reach.attempted ? "pending" : "bad"}">${reach.attempted ? "Attempted, unconfirmed" : "Failed / skipped"}</span></div>
+    <div class="check-row"><span style="color:var(--muted);font-size:12px;">${reach.detail}</span></div>
+    <div class="check-row"><span>SSL certificate</span><span class="pending">Not available client-side</span></div>
+    <div class="check-row"><span>Broken links</span><span class="pending">Not available client-side</span></div>
+  `;
+
+  btn.disabled = false;
+  btn.textContent = "Check";
+});
+
+document.getElementById("urlInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") document.getElementById("checkBtn").click();
+});
+
+// ---- V3: real scan results, same-origin fetch (no CORS issue at all,
+// since results.json is served from this same site by the scheduled
+// GitHub Action that writes it). ----
+
+function fmtAgo(isoString){
+  const then = new Date(isoString);
+  const mins = Math.round((Date.now() - then.getTime()) / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins} min ago`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.round(hours / 24)}d ago`;
+}
+
+// ---- V4: "What Needs My Attention" — one prioritized list, not ten
+// columns to interpret. Every issue is either "confirmed" (a real
+// problem a real visitor would also hit) or "uncertain" (the scanner
+// saw something ambiguous — most commonly a WAF blocking the automated
+// request specifically, not a real outage) — those are honestly
+// different situations and are never presented identically. ----
+
+const SSL_ISSUE_TEXT = {
+  hostname_mismatch: {
+    headline: "Certificate doesn't cover this domain",
+    detail: d => `The certificate served is valid, but not for this exact hostname. Real visitors typing this address directly will hit a hard browser security error — not a warning they can click past, a failure most will not push through. This breaks the entire HTTPS connection, which is also why the HTTP check above may show as failed.`,
+  },
+  expired: {
+    headline: "Certificate has expired",
+    detail: d => `The TLS certificate's own validity window has passed. Every visitor sees a security error, regardless of browser.`,
+  },
+  not_yet_valid: {
+    headline: "Certificate isn't valid yet",
+    detail: d => `The certificate's validity window hasn't started — usually a clock or deployment-timing issue. Every visitor sees a security error until it starts.`,
+  },
+  self_signed: {
+    headline: "Certificate is self-signed",
+    detail: d => `Not issued by a trusted certificate authority. Browsers block this by default for every visitor.`,
+  },
+  untrusted_issuer: {
+    headline: "Certificate chain doesn't verify",
+    detail: d => `The issuing authority couldn't be verified as trusted. Browsers block this by default for every visitor.`,
+  },
+  connection_failed: {
+    headline: "Could not establish a secure connection at all",
+    detail: d => d.ssl.error || "The TLS handshake itself failed — the site may be down or blocking this connection entirely.",
+  },
+  other_verification_failure: {
+    headline: "Certificate failed verification",
+    detail: d => d.ssl.error || "Worth checking manually — the specific reason wasn't one of the common categories.",
+  },
+};
+
+function generateIssues(sites){
+  const issues = [];
+
+  sites.forEach(s => {
+    // SSL — these break HTTPS for every real visitor when verification
+    // fails outright. High severity, high confidence: if the scanner's
+    // TLS handshake fails, a real visitor's browser fails the same way.
+    if (!s.ssl.ok && s.ssl.issue_type){
+      const info = SSL_ISSUE_TEXT[s.ssl.issue_type] || SSL_ISSUE_TEXT.other_verification_failure;
+      issues.push({
+        domain: s.domain, category: "SSL", confidence: "confirmed",
+        severity: s.ssl.issue_type === "connection_failed" ? 95 : 100,
+        headline: info.headline, detail: info.detail(s),
+      });
+    } else if (s.ssl.ok && s.ssl.days_remaining !== null && s.ssl.days_remaining < 14){
+      issues.push({
+        domain: s.domain, category: "SSL", confidence: "confirmed", severity: 60,
+        headline: `Certificate expires in ${s.ssl.days_remaining} day${s.ssl.days_remaining === 1 ? "" : "s"}`,
+        detail: `Issued by ${s.ssl.issuer || "unknown"}. Renew before it lapses — an expired certificate fails the same way as a hostname mismatch, for every visitor.`,
+      });
+    }
+
+    // HTTP — code-dependent confidence. A 5xx or total failure is a real,
+    // confirmed problem. A 401/403/406/429 is genuinely ambiguous from a
+    // scanner alone — it's the classic signature of a WAF blocking the
+    // automated request specifically, not real visitors. Presenting that
+    // ambiguity honestly, not flattening it into "down."
+    //
+    // One exception: if SSL already failed AND the HTTP request never
+    // got a status code at all, that's not a second, independent
+    // problem — it's the same TLS failure preventing the HTTP request
+    // from completing. The SSL card already explains this explicitly;
+    // adding a second "HTTP: no response" card for the identical root
+    // cause would misrepresent one problem as two.
+    const httpFailureIsSslConsequence = !s.ssl.ok && !s.http.ok && s.http.status_code === null;
+
+    if (!s.http.ok && !httpFailureIsSslConsequence){
+      const code = s.http.status_code;
+      if (code === null){
+        issues.push({
+          domain: s.domain, category: "HTTP", confidence: "confirmed", severity: 98,
+          headline: "Site did not respond at all",
+          detail: s.http.error || "Connection failed outright — likely DNS, timeout, or the server refusing connections.",
+        });
+      } else if ([401, 403, 406, 429].includes(code)){
+        issues.push({
+          domain: s.domain, category: "HTTP", confidence: "uncertain", severity: 40,
+          headline: `Scanner received HTTP ${code}`,
+          detail: `This can mean the site is genuinely blocking access, or that bot-protection (a WAF) is blocking this automated scanner specifically while real visitors get through fine. Worth checking manually in an actual browser before treating this as confirmed downtime.`,
+        });
+      } else if (code >= 500){
+        issues.push({
+          domain: s.domain, category: "HTTP", confidence: "confirmed", severity: 90,
+          headline: `Server error (HTTP ${code})`,
+          detail: `The server itself reported a failure — not a scanner artifact. Every visitor sees this right now.`,
+        });
+      } else if (code === 404){
+        issues.push({
+          domain: s.domain, category: "HTTP", confidence: "confirmed", severity: 85,
+          headline: "Homepage not found (404)",
+          detail: `The domain resolves and responds, but nothing is being served at the root URL.`,
+        });
+      } else {
+        issues.push({
+          domain: s.domain, category: "HTTP", confidence: "uncertain", severity: 50,
+          headline: `Unexpected HTTP ${code}`,
+          detail: s.http.error || "Worth a manual check — this status code isn't one of the common categories.",
+        });
+      }
+    }
+
+    // Broken links — the site itself is fine; something it links to
+    // isn't. Real, individually-verified (each link got its own request),
+    // but lower stakes than the site's own availability or security.
+    if (s.links.broken_count > 0){
+      const examples = (s.links.broken || []).slice(0, 3)
+        .map(b => `${b.url} → ${b.status_code !== null && b.status_code !== undefined ? "HTTP " + b.status_code : (b.error || "failed")}`)
+        .join("; ");
+      issues.push({
+        domain: s.domain, category: "Links", confidence: "confirmed",
+        severity: 20 + Math.min(s.links.broken_count, 10),
+        headline: `${s.links.broken_count} broken link${s.links.broken_count === 1 ? "" : "s"} on the homepage`,
+        detail: examples,
+      });
+    }
+
+    // Outdated WordPress core — a verified fact (the site's own generator
+    // tag, compared against WordPress.org's own published latest version),
+    // not a scanner artifact, so this gets "confirmed" like a real
+    // security-relevant finding. No plugin/theme visibility here — that
+    // needs authenticated access, a deliberately separate decision.
+    if (s.wordpress && s.wordpress.detected && s.wordpress.is_outdated === true){
+      issues.push({
+        domain: s.domain, category: "WordPress", confidence: "confirmed", severity: 55,
+        headline: `WordPress ${s.wordpress.version} is outdated (latest: ${s.wordpress.latest})`,
+        detail: `Detected via the site's own generator tag, compared against WordPress.org's published latest version. This check only sees the WordPress core version — not plugins, themes, or whether backups are current, which need authenticated access.`,
+      });
+    }
+
+    // V6 — authenticated plugin updates, only present for sites with a
+    // configured Application Password. Each outdated plugin is its own
+    // confirmed finding: verified against the installed version reported
+    // by the site's own REST API and the real latest version from
+    // WordPress.org's public directory, not a scanner guess.
+    if (s.wordpress_plugins && s.wordpress_plugins.checked){
+      (s.wordpress_plugins.plugins || []).forEach(p => {
+        if (p.is_outdated === true){
+          issues.push({
+            domain: s.domain, category: "Plugin", confidence: "confirmed", severity: 58,
+            headline: `Plugin "${p.name}" is outdated (${p.version} → ${p.latest})`,
+            detail: `Installed version reported by the site's own admin API, compared against WordPress.org's public directory listing for this plugin.`,
+          });
+        }
+      });
+    } else if (s.wordpress_plugins && !s.wordpress_plugins.checked && s.wordpress_plugins.reason && s.wordpress_plugins.reason !== "no credentials configured for this site"){
+      // Worth surfacing, but as "uncertain" — this means the monitoring
+      // setup itself has a problem (e.g. a rotated Application Password),
+      // not necessarily that anything is wrong with the site.
+      issues.push({
+        domain: s.domain, category: "Plugin", confidence: "uncertain", severity: 15,
+        headline: "Couldn't check plugin updates",
+        detail: `${s.wordpress_plugins.reason}. This is about the monitoring setup, not necessarily the site itself.`,
+      });
+    }
+  });
+
+  return issues.sort((a, b) => b.severity - a.severity);
+}
+
+function severityClass(sev){
+  if (sev >= 80) return "sev-critical";
+  if (sev >= 40) return "sev-warning";
+  return "sev-minor";
+}
+
+function renderAttentionPanel(data){
+  const el = document.getElementById("attentionList");
+  if (!data || !data.sites || data.sites.length === 0){
+    el.innerHTML = `<div class="all-clear" style="color:var(--muted)">No scan data yet — see "Full Live Scan Results" below to get the first scan running.</div>`;
+    return;
+  }
+
+  const issues = generateIssues(data.sites);
+
+  if (issues.length === 0){
+    el.innerHTML = `<div class="all-clear">✓ Nothing needs your attention — all ${data.sites.length} site${data.sites.length === 1 ? "" : "s"} ${data.sites.length === 1 ? "is" : "are"} healthy.</div>`;
+    return;
+  }
+
+  el.innerHTML = issues.map(i => `
+    <div class="issue-card ${severityClass(i.severity)}">
+      <div class="issue-head">
+        <div>
+          <div class="issue-domain">${i.domain}</div>
+          <div class="issue-headline">${i.category}: ${i.headline}</div>
+        </div>
+        <span class="confidence-tag ${i.confidence}">${i.confidence === "confirmed" ? "CONFIRMED" : "CHECK MANUALLY"}</span>
+      </div>
+      <div class="issue-detail">${i.detail}</div>
+    </div>
+  `).join("");
+}
+
+function renderScanResults(data){
+  const metaEl = document.getElementById("scanMeta");
+  const fleetEl = document.getElementById("scanFleet");
+
+  if (!data || !data.sites || data.sites.length === 0){
+    metaEl.textContent = "";
+    fleetEl.innerHTML = `<div class="scan-empty">No scan results yet. Trigger the "WebFleet Scan" workflow manually from the repo's Actions tab, or wait for the next scheduled run (every 6 hours).</div>`;
+    return;
+  }
+
+  metaEl.textContent = `Last scan: ${fmtAgo(data.generated_at)} · ${data.sites.length} site${data.sites.length === 1 ? "" : "s"}`;
+
+  fleetEl.innerHTML = data.sites.map(s => {
+    const httpCls = s.http.ok ? "ok" : "bad";
+    const httpLabel = s.http.status_code ? `HTTP ${s.http.status_code}` : "Failed";
+    const sslIssueLabels = {
+      hostname_mismatch: "Hostname mismatch",
+      expired: "Expired",
+      not_yet_valid: "Not yet valid",
+      self_signed: "Self-signed",
+      untrusted_issuer: "Untrusted issuer",
+      connection_failed: "Connection failed",
+      other_verification_failure: "Cert invalid",
+    };
+    const sslCls = s.ssl.ok ? (s.ssl.days_remaining < 14 ? "warn" : "ok") : "bad";
+    const sslLabel = s.ssl.ok ? `${s.ssl.days_remaining}d left` : (sslIssueLabels[s.ssl.issue_type] || "Invalid");
+    const linksCls = s.links.broken_count > 0 ? "warn" : "ok";
+    const linksLabel = s.links.error ? "N/A" : `${s.links.broken_count} broken`;
+    const respLabel = s.http.response_time_ms !== null ? `${s.http.response_time_ms}ms` : "—";
+    const wp = s.wordpress;
+    const wpBlocked = wp && !wp.detected && wp.error && wp.error.includes("could not check");
+    const wpLine = (wp && wp.detected)
+      ? `<div class="scan-detail" style="margin-top:3px;">WordPress ${wp.version}${wp.is_outdated === true ? ` <span class="warn">(latest: ${wp.latest})</span>` : wp.is_outdated === false ? " (up to date)" : wp.error ? " — couldn't check latest version" : ""}</div>`
+      : wpBlocked
+      ? `<div class="scan-detail" style="margin-top:3px;">WordPress: couldn't check (homepage request failed)</div>`
+      : "";
+    const wpPlugins = s.wordpress_plugins;
+    const pluginLine = (wpPlugins && wpPlugins.checked)
+      ? (() => {
+          const outdatedCount = (wpPlugins.plugins || []).filter(p => p.is_outdated === true).length;
+          const total = (wpPlugins.plugins || []).length;
+          return `<div class="scan-detail" style="margin-top:2px;">${outdatedCount > 0 ? `<span class="warn">${outdatedCount} of ${total} plugins outdated</span>` : `${total} plugin${total === 1 ? "" : "s"}, all up to date or unlisted`}</div>`;
+        })()
+      : (wpPlugins && !wpPlugins.checked && wpPlugins.reason !== "no credentials configured for this site")
+      ? `<div class="scan-detail" style="margin-top:2px;">Plugin check: ${wpPlugins.reason}</div>`
+      : "";
+
+    return `
+    <div class="scan-site">
+      <div><div class="domain">${s.domain}</div><div class="scan-detail">${fmtAgo(s.checked_at)}</div>${wpLine}${pluginLine}</div>
+      <div class="${httpCls}">${httpLabel}<div class="small">HTTP</div></div>
+      <div class="${sslCls}">${sslLabel}<div class="small">SSL</div><div class="scan-detail">${s.ssl.ok ? (s.ssl.issuer || "") : (s.ssl.error || "")}</div></div>
+      <div><b>${respLabel}</b><div class="small">Response</div></div>
+      <div class="${linksCls}">${linksLabel}<div class="small">Links (homepage, ${s.links.checked} checked)</div></div>
+    </div>`;
+  }).join("");
+}
+
+fetch("results.json", { cache: "no-store" })
+  .then(r => { if (!r.ok) throw new Error("not found"); return r.json(); })
+  .then(data => { renderAttentionPanel(data); renderScanResults(data); })
+  .catch(() => { renderAttentionPanel(null); renderScanResults(null); });
+</script>
+</body>
+</html>

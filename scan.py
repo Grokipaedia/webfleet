@@ -332,6 +332,77 @@ def check_wp_plugin_updates(domain: str, secret_key: str) -> dict:
     return {"checked": True, "reason": None, "plugins": results}
 
 
+_RDAP_BOOTSTRAP_CACHE = None
+
+
+def get_rdap_bootstrap():
+    """The real, official IANA registry mapping each TLD to its
+    authoritative RDAP server (RFC 9224). Fetched once per scan run and
+    cached in memory — querying this per-domain would be wasteful and
+    impolite to IANA's server. Confirmed directly against the live file
+    before writing this: coverage is real but incomplete — .ke has a
+    registered RDAP server (rdap.kenic.or.ke), .hk currently has none at
+    all. That's an actual gap in the .hk registry's own deployment, not a
+    bug here, and is reported honestly as 'not available' rather than
+    guessed or silently skipped."""
+    global _RDAP_BOOTSTRAP_CACHE
+    if _RDAP_BOOTSTRAP_CACHE is not None:
+        return _RDAP_BOOTSTRAP_CACHE
+    try:
+        resp = requests.get("https://data.iana.org/rdap/dns.json", timeout=10, headers=REQUEST_HEADERS)
+        if not resp.ok:
+            _RDAP_BOOTSTRAP_CACHE = {}
+            return _RDAP_BOOTSTRAP_CACHE
+        data = resp.json()
+        lookup = {}
+        for entry in data.get("services", []):
+            if not isinstance(entry, list) or len(entry) != 2:
+                continue
+            tlds, urls = entry
+            if not urls:
+                continue
+            for tld in tlds:
+                lookup[tld.lower()] = urls[0]
+        _RDAP_BOOTSTRAP_CACHE = lookup
+    except (requests.exceptions.RequestException, ValueError):
+        _RDAP_BOOTSTRAP_CACHE = {}
+    return _RDAP_BOOTSTRAP_CACHE
+
+
+def check_domain_expiry(domain: str) -> dict:
+    """Real domain REGISTRATION expiry — a different, and for a domain
+    portfolio arguably more important, risk than SSL certificate expiry.
+    Losing a domain to non-renewal is permanent; a lapsed certificate is
+    a same-day fix. Schema verified against multiple independently
+    converging real sources (an RFC draft, a worked example from
+    afnic.fr, and a live curl+jq query against rdap.verisign.com) before
+    writing this: {"events": [{"eventAction": "expiration", "eventDate":
+    "..."}]}."""
+    tld = domain.rsplit(".", 1)[-1].lower()
+    bootstrap = get_rdap_bootstrap()
+    base_url = bootstrap.get(tld)
+    if not base_url:
+        return {"checked": False, "reason": f"no RDAP server registered for .{tld}", "expires": None, "days_remaining": None}
+
+    try:
+        url = base_url.rstrip("/") + f"/domain/{domain}"
+        resp = requests.get(url, timeout=10, headers=REQUEST_HEADERS)
+        if not resp.ok:
+            return {"checked": False, "reason": f"RDAP query failed (HTTP {resp.status_code})", "expires": None, "days_remaining": None}
+        data = resp.json()
+        events = data.get("events", [])
+        if not isinstance(events, list):
+            return {"checked": False, "reason": "unexpected RDAP response shape", "expires": None, "days_remaining": None}
+        expiry_event = next((e for e in events if isinstance(e, dict) and e.get("eventAction") == "expiration"), None)
+        if not expiry_event or "eventDate" not in expiry_event:
+            return {"checked": False, "reason": "no expiration event in RDAP response", "expires": None, "days_remaining": None}
+        expires = datetime.fromisoformat(expiry_event["eventDate"].replace("Z", "+00:00"))
+        days_remaining = (expires - datetime.now(timezone.utc)).days
+        return {"checked": True, "reason": None, "expires": expires.isoformat(), "days_remaining": days_remaining}
+    except (requests.exceptions.RequestException, ValueError, KeyError) as e:
+        return {"checked": False, "reason": f"RDAP query error: {e}", "expires": None, "days_remaining": None}
+
+
 def check_wordpress(html: str, http_ok: bool) -> dict:
     """No credentials, no login — just what a site already exposes
     publicly. Can only detect the core version, not plugins/themes/
@@ -365,11 +436,20 @@ def check_wordpress(html: str, http_ok: bool) -> dict:
     return {"detected": True, "version": version, "latest": latest, "is_outdated": is_outdated, "error": None}
 
 
-def overall_status(http_result: dict, ssl_result: dict, link_result: dict, wp_result: dict = None) -> str:
+def overall_status(http_result: dict, ssl_result: dict, link_result: dict, wp_result: dict = None, domain_result: dict = None) -> str:
     if not http_result["ok"]:
         return "bad"
     if ssl_result["ok"] is False:
         return "bad"
+    if domain_result and domain_result.get("checked") and domain_result.get("days_remaining") is not None:
+        # Losing a domain to non-renewal is permanent — a lapsed SSL cert
+        # is a same-day fix. Given that higher stakes, this uses a wider
+        # warning window (30 days) than SSL's 14, and escalates to "bad"
+        # inside 7 days, when real loss becomes a near-term possibility.
+        if domain_result["days_remaining"] < 7:
+            return "bad"
+        if domain_result["days_remaining"] < 30:
+            return "warn"
     if ssl_result["ok"] and ssl_result["days_remaining"] is not None and ssl_result["days_remaining"] < 14:
         return "warn"
     if link_result["broken"]:
@@ -384,13 +464,15 @@ def scan_domain(domain: str, wp_secret_key: str = None) -> dict:
     ssl_result = check_ssl(domain)
     link_result = check_links(domain, http_result.get("html"))
     wp_result = check_wordpress(http_result.get("html"), http_result["ok"])
+    domain_result = check_domain_expiry(domain)
 
     result = {
         "domain": domain,
         "checked_at": datetime.now(timezone.utc).isoformat(),
-        "overall": overall_status(http_result, ssl_result, link_result, wp_result),
+        "overall": overall_status(http_result, ssl_result, link_result, wp_result, domain_result),
         "http": {k: v for k, v in http_result.items() if k != "html"},
         "ssl": ssl_result,
+        "domain_expiry": domain_result,
         "links": {"checked": link_result["checked"], "broken_count": len(link_result["broken"]), "broken": link_result["broken"][:5], "error": link_result["error"]},
         "wordpress": wp_result,
     }

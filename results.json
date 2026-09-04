@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-04T01:58:46.298049+00:00",
+  "generated_at": "2026-09-04T10:09:57.277930+00:00",
   "sites": [
     {
       "domain": "Grokipaedia.com",
-      "checked_at": "2026-09-04T01:58:33.748630+00:00",
+      "checked_at": "2026-09-04T10:09:45.044526+00:00",
       "overall": "bad",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 918,
+        "response_time_ms": 971,
         "final_url": "https://www.grokipaedia.com/",
         "error": null
       },
@@ -24,7 +24,7 @@
         "checked": true,
         "reason": null,
         "expires": "2026-10-05T08:07:09+00:00",
-        "days_remaining": 31
+        "days_remaining": 30
       },
       "links": {
         "checked": 15,
@@ -42,12 +42,12 @@
     },
     {
       "domain": "IntentBound.com",
-      "checked_at": "2026-09-04T01:58:34.031280+00:00",
+      "checked_at": "2026-09-04T10:09:45.488666+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 89,
+        "response_time_ms": 161,
         "final_url": "https://intentbound.com/",
         "error": null
       },
@@ -55,7 +55,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-14T03:15:01+00:00",
-        "days_remaining": 71,
+        "days_remaining": 70,
         "issuer": "Google Trust Services",
         "error": null
       },
@@ -63,7 +63,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-01-22T04:21:56+00:00",
-        "days_remaining": 140
+        "days_remaining": 139
       },
       "links": {
         "checked": 0,
@@ -86,12 +86,12 @@
     },
     {
       "domain": "AIPayHQ.com",
-      "checked_at": "2026-09-04T01:58:37.719459+00:00",
+      "checked_at": "2026-09-04T10:09:48.962654+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 1441,
+        "response_time_ms": 1394,
         "final_url": "https://aipayhq.com/",
         "error": null
       },
@@ -135,12 +135,12 @@
     },
     {
       "domain": "Holidays.HK",
-      "checked_at": "2026-09-04T01:58:41.794238+00:00",
+      "checked_at": "2026-09-04T10:09:52.831220+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 96,
+        "response_time_ms": 89,
         "final_url": "https://holidays.hk/",
         "error": null
       },
@@ -179,7 +179,7 @@
     },
     {
       "domain": "RSIForge.com",
-      "checked_at": "2026-09-04T01:58:42.222965+00:00",
+      "checked_at": "2026-09-04T10:09:53.458310+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
@@ -200,7 +200,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-05-20T07:21:02+00:00",
-        "days_remaining": 258
+        "days_remaining": 257
       },
       "links": {
         "checked": 2,
@@ -223,12 +223,12 @@
     },
     {
       "domain": "Weather.KE",
-      "checked_at": "2026-09-04T01:58:43.309316+00:00",
+      "checked_at": "2026-09-04T10:09:54.514650+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 95,
+        "response_time_ms": 313,
         "final_url": "https://weather.ke/",
         "error": null
       },
@@ -236,7 +236,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-10-06T02:20:48+00:00",
-        "days_remaining": 32,
+        "days_remaining": 31,
         "issuer": "Google Trust Services",
         "error": null
       },
@@ -262,12 +262,12 @@
     },
     {
       "domain": "ChiangmaiGolfCourses.com",
-      "checked_at": "2026-09-04T01:58:46.297950+00:00",
+      "checked_at": "2026-09-04T10:09:57.277823+00:00",
       "overall": "ok",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 834,
+        "response_time_ms": 786,
         "final_url": "https://chiangmaigolfcourses.com/",
         "error": null
       },

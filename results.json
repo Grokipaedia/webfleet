@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-05T19:42:11.730302+00:00",
+  "generated_at": "2026-09-06T01:54:46.673563+00:00",
   "sites": [
     {
       "domain": "Grokipaedia.com",
-      "checked_at": "2026-09-05T19:41:59.553140+00:00",
+      "checked_at": "2026-09-06T01:54:32.841634+00:00",
       "overall": "bad",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 967,
+        "response_time_ms": 974,
         "final_url": "https://www.grokipaedia.com/",
         "error": null
       },
@@ -42,12 +42,12 @@
     },
     {
       "domain": "IntentBound.com",
-      "checked_at": "2026-09-05T19:41:59.734385+00:00",
+      "checked_at": "2026-09-06T01:54:33.137181+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 98,
+        "response_time_ms": 103,
         "final_url": "https://intentbound.com/",
         "error": null
       },
@@ -86,12 +86,12 @@
     },
     {
       "domain": "AIPayHQ.com",
-      "checked_at": "2026-09-05T19:42:03.740246+00:00",
+      "checked_at": "2026-09-06T01:54:37.703924+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 536,
+        "response_time_ms": 1121,
         "final_url": "https://aipayhq.com/",
         "error": null
       },
@@ -99,7 +99,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-03T00:05:20+00:00",
-        "days_remaining": 58,
+        "days_remaining": 57,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -107,7 +107,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-05-22T00:13:45+00:00",
-        "days_remaining": 258
+        "days_remaining": 257
       },
       "links": {
         "checked": 10,
@@ -135,12 +135,12 @@
     },
     {
       "domain": "Holidays.HK",
-      "checked_at": "2026-09-05T19:42:06.867333+00:00",
+      "checked_at": "2026-09-06T01:54:41.743701+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 224,
+        "response_time_ms": 636,
         "final_url": "https://holidays.hk/",
         "error": null
       },
@@ -179,12 +179,12 @@
     },
     {
       "domain": "RSIForge.com",
-      "checked_at": "2026-09-05T19:42:07.428912+00:00",
+      "checked_at": "2026-09-06T01:54:42.636461+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 142,
+        "response_time_ms": 159,
         "final_url": "https://rsiforge.com/",
         "error": null
       },
@@ -192,7 +192,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-03T00:04:57+00:00",
-        "days_remaining": 58,
+        "days_remaining": 57,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -223,12 +223,12 @@
     },
     {
       "domain": "Weather.KE",
-      "checked_at": "2026-09-05T19:42:08.960570+00:00",
+      "checked_at": "2026-09-06T01:54:44.163469+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 292,
+        "response_time_ms": 324,
         "final_url": "https://weather.ke/",
         "error": null
       },
@@ -262,12 +262,12 @@
     },
     {
       "domain": "ChiangmaiGolfCourses.com",
-      "checked_at": "2026-09-05T19:42:11.730266+00:00",
+      "checked_at": "2026-09-06T01:54:46.673436+00:00",
       "overall": "ok",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 472,
+        "response_time_ms": 302,
         "final_url": "https://chiangmaigolfcourses.com/",
         "error": null
       },
@@ -275,7 +275,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-03T00:05:13+00:00",
-        "days_remaining": 58,
+        "days_remaining": 57,
         "issuer": "Let's Encrypt",
         "error": null
       },

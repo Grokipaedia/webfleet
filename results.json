@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-08T10:17:03.679635+00:00",
+  "generated_at": "2026-09-08T15:39:08.362330+00:00",
   "sites": [
     {
       "domain": "Grokipaedia.com",
-      "checked_at": "2026-09-08T10:16:41.388225+00:00",
-      "overall": "bad",
+      "checked_at": "2026-09-08T15:38:53.001143+00:00",
+      "overall": "ok",
       "http": {
-        "ok": false,
-        "status_code": 403,
-        "response_time_ms": 253,
+        "ok": true,
+        "status_code": 200,
+        "response_time_ms": 270,
         "final_url": "https://grokipaedia.com/",
         "error": null
       },
@@ -27,27 +27,27 @@
         "days_remaining": 391
       },
       "links": {
-        "checked": 0,
+        "checked": 15,
         "broken_count": 0,
         "broken": [],
-        "error": "no HTML to scan (homepage request failed)"
+        "error": null
       },
       "wordpress": {
         "detected": false,
         "version": null,
         "latest": null,
         "is_outdated": null,
-        "error": "could not check \u2014 the homepage request itself failed, so no page content was available to search"
+        "error": null
       }
     },
     {
       "domain": "IntentBound.com",
-      "checked_at": "2026-09-08T10:16:41.947024+00:00",
+      "checked_at": "2026-09-08T15:38:53.292150+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 250,
+        "response_time_ms": 139,
         "final_url": "https://intentbound.com/",
         "error": null
       },
@@ -86,12 +86,12 @@
     },
     {
       "domain": "AIPayHQ.com",
-      "checked_at": "2026-09-08T10:16:48.386979+00:00",
+      "checked_at": "2026-09-08T15:38:57.670051+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 769,
+        "response_time_ms": 1507,
         "final_url": "https://aipayhq.com/",
         "error": null
       },
@@ -135,12 +135,12 @@
     },
     {
       "domain": "Holidays.HK",
-      "checked_at": "2026-09-08T10:16:54.318958+00:00",
+      "checked_at": "2026-09-08T15:39:02.134315+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 295,
+        "response_time_ms": 313,
         "final_url": "https://holidays.hk/",
         "error": null
       },
@@ -179,12 +179,12 @@
     },
     {
       "domain": "RSIForge.com",
-      "checked_at": "2026-09-08T10:16:55.535943+00:00",
+      "checked_at": "2026-09-08T15:39:03.255068+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 284,
+        "response_time_ms": 202,
         "final_url": "https://rsiforge.com/",
         "error": null
       },
@@ -223,12 +223,12 @@
     },
     {
       "domain": "Weather.KE",
-      "checked_at": "2026-09-08T10:16:57.383509+00:00",
+      "checked_at": "2026-09-08T15:39:04.785335+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 395,
+        "response_time_ms": 266,
         "final_url": "https://weather.ke/",
         "error": null
       },
@@ -244,7 +244,7 @@
         "checked": true,
         "reason": null,
         "expires": "2026-11-23T11:19:16+00:00",
-        "days_remaining": 76
+        "days_remaining": 75
       },
       "links": {
         "checked": 0,
@@ -262,12 +262,12 @@
     },
     {
       "domain": "ChiangmaiGolfCourses.com",
-      "checked_at": "2026-09-08T10:17:03.679605+00:00",
+      "checked_at": "2026-09-08T15:39:08.362293+00:00",
       "overall": "ok",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 640,
+        "response_time_ms": 893,
         "final_url": "https://chiangmaigolfcourses.com/",
         "error": null
       },
@@ -283,7 +283,7 @@
         "checked": true,
         "reason": null,
         "expires": "2026-11-25T10:24:07+00:00",
-        "days_remaining": 78
+        "days_remaining": 77
       },
       "links": {
         "checked": 12,

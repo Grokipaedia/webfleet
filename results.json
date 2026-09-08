@@ -1,53 +1,53 @@
 {
-  "generated_at": "2026-09-08T02:02:55.261860+00:00",
+  "generated_at": "2026-09-08T10:17:03.679635+00:00",
   "sites": [
     {
       "domain": "Grokipaedia.com",
-      "checked_at": "2026-09-08T02:02:43.533227+00:00",
+      "checked_at": "2026-09-08T10:16:41.388225+00:00",
       "overall": "bad",
       "http": {
-        "ok": true,
-        "status_code": 200,
-        "response_time_ms": 1041,
-        "final_url": "https://www.grokipaedia.com/",
+        "ok": false,
+        "status_code": 403,
+        "response_time_ms": 253,
+        "final_url": "https://grokipaedia.com/",
         "error": null
       },
       "ssl": {
-        "ok": false,
-        "issue_type": "hostname_mismatch",
-        "expires": null,
-        "days_remaining": null,
-        "issuer": null,
-        "error": "Hostname mismatch, certificate is not valid for 'Grokipaedia.com'."
+        "ok": true,
+        "issue_type": null,
+        "expires": "2026-12-07T09:02:48+00:00",
+        "days_remaining": 89,
+        "issuer": "Let's Encrypt",
+        "error": null
       },
       "domain_expiry": {
         "checked": true,
         "reason": null,
-        "expires": "2026-10-05T08:07:09+00:00",
-        "days_remaining": 27
+        "expires": "2027-10-05T08:07:09+00:00",
+        "days_remaining": 391
       },
       "links": {
-        "checked": 15,
+        "checked": 0,
         "broken_count": 0,
         "broken": [],
-        "error": null
+        "error": "no HTML to scan (homepage request failed)"
       },
       "wordpress": {
         "detected": false,
         "version": null,
         "latest": null,
         "is_outdated": null,
-        "error": null
+        "error": "could not check \u2014 the homepage request itself failed, so no page content was available to search"
       }
     },
     {
       "domain": "IntentBound.com",
-      "checked_at": "2026-09-08T02:02:43.726677+00:00",
+      "checked_at": "2026-09-08T10:16:41.947024+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 74,
+        "response_time_ms": 250,
         "final_url": "https://intentbound.com/",
         "error": null
       },
@@ -55,7 +55,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-14T03:15:01+00:00",
-        "days_remaining": 67,
+        "days_remaining": 66,
         "issuer": "Google Trust Services",
         "error": null
       },
@@ -63,7 +63,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-01-22T04:21:56+00:00",
-        "days_remaining": 136
+        "days_remaining": 135
       },
       "links": {
         "checked": 0,
@@ -86,12 +86,12 @@
     },
     {
       "domain": "AIPayHQ.com",
-      "checked_at": "2026-09-08T02:02:47.188318+00:00",
+      "checked_at": "2026-09-08T10:16:48.386979+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 1388,
+        "response_time_ms": 769,
         "final_url": "https://aipayhq.com/",
         "error": null
       },
@@ -135,12 +135,12 @@
     },
     {
       "domain": "Holidays.HK",
-      "checked_at": "2026-09-08T02:02:50.255737+00:00",
+      "checked_at": "2026-09-08T10:16:54.318958+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 80,
+        "response_time_ms": 295,
         "final_url": "https://holidays.hk/",
         "error": null
       },
@@ -179,12 +179,12 @@
     },
     {
       "domain": "RSIForge.com",
-      "checked_at": "2026-09-08T02:02:50.763654+00:00",
+      "checked_at": "2026-09-08T10:16:55.535943+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 93,
+        "response_time_ms": 284,
         "final_url": "https://rsiforge.com/",
         "error": null
       },
@@ -200,7 +200,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-05-20T07:21:02+00:00",
-        "days_remaining": 254
+        "days_remaining": 253
       },
       "links": {
         "checked": 2,
@@ -223,12 +223,12 @@
     },
     {
       "domain": "Weather.KE",
-      "checked_at": "2026-09-08T02:02:52.083142+00:00",
+      "checked_at": "2026-09-08T10:16:57.383509+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 300,
+        "response_time_ms": 395,
         "final_url": "https://weather.ke/",
         "error": null
       },
@@ -236,7 +236,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-12-04T02:42:14+00:00",
-        "days_remaining": 87,
+        "days_remaining": 86,
         "issuer": "Google Trust Services",
         "error": null
       },
@@ -262,12 +262,12 @@
     },
     {
       "domain": "ChiangmaiGolfCourses.com",
-      "checked_at": "2026-09-08T02:02:55.261745+00:00",
+      "checked_at": "2026-09-08T10:17:03.679605+00:00",
       "overall": "ok",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 786,
+        "response_time_ms": 640,
         "final_url": "https://chiangmaigolfcourses.com/",
         "error": null
       },

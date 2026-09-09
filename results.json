@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-08T20:28:43.788761+00:00",
+  "generated_at": "2026-09-09T02:07:56.710094+00:00",
   "sites": [
     {
       "domain": "Grokipaedia.com",
-      "checked_at": "2026-09-08T20:28:27.789370+00:00",
-      "overall": "ok",
+      "checked_at": "2026-09-09T02:07:37.099634+00:00",
+      "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 241,
+        "response_time_ms": 309,
         "final_url": "https://grokipaedia.com/",
         "error": null
       },
@@ -28,8 +28,13 @@
       },
       "links": {
         "checked": 15,
-        "broken_count": 0,
-        "broken": [],
+        "broken_count": 1,
+        "broken": [
+          {
+            "url": "https://Grokipaedia.com/Demo.html",
+            "status_code": 404
+          }
+        ],
         "error": null
       },
       "wordpress": {
@@ -42,12 +47,12 @@
     },
     {
       "domain": "IntentBound.com",
-      "checked_at": "2026-09-08T20:28:28.208008+00:00",
+      "checked_at": "2026-09-09T02:07:37.663434+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 171,
+        "response_time_ms": 265,
         "final_url": "https://intentbound.com/",
         "error": null
       },
@@ -86,12 +91,12 @@
     },
     {
       "domain": "AIPayHQ.com",
-      "checked_at": "2026-09-08T20:28:32.834720+00:00",
+      "checked_at": "2026-09-09T02:07:43.048813+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 1513,
+        "response_time_ms": 1619,
         "final_url": "https://aipayhq.com/",
         "error": null
       },
@@ -99,7 +104,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-03T00:05:20+00:00",
-        "days_remaining": 55,
+        "days_remaining": 54,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -107,7 +112,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-05-22T00:13:45+00:00",
-        "days_remaining": 255
+        "days_remaining": 254
       },
       "links": {
         "checked": 10,
@@ -135,12 +140,12 @@
     },
     {
       "domain": "Holidays.HK",
-      "checked_at": "2026-09-08T20:28:37.445498+00:00",
+      "checked_at": "2026-09-09T02:07:48.671620+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 178,
+        "response_time_ms": 419,
         "final_url": "https://holidays.hk/",
         "error": null
       },
@@ -148,7 +153,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-03T01:57:08+00:00",
-        "days_remaining": 55,
+        "days_remaining": 54,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -179,12 +184,12 @@
     },
     {
       "domain": "RSIForge.com",
-      "checked_at": "2026-09-08T20:28:38.537486+00:00",
+      "checked_at": "2026-09-09T02:07:49.907120+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 213,
+        "response_time_ms": 281,
         "final_url": "https://rsiforge.com/",
         "error": null
       },
@@ -192,7 +197,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-03T00:04:57+00:00",
-        "days_remaining": 55,
+        "days_remaining": 54,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -223,12 +228,12 @@
     },
     {
       "domain": "Weather.KE",
-      "checked_at": "2026-09-08T20:28:40.266576+00:00",
+      "checked_at": "2026-09-09T02:07:51.695832+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 358,
+        "response_time_ms": 435,
         "final_url": "https://weather.ke/",
         "error": null
       },
@@ -262,12 +267,12 @@
     },
     {
       "domain": "ChiangmaiGolfCourses.com",
-      "checked_at": "2026-09-08T20:28:43.788702+00:00",
+      "checked_at": "2026-09-09T02:07:56.710035+00:00",
       "overall": "ok",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 920,
+        "response_time_ms": 1114,
         "final_url": "https://chiangmaigolfcourses.com/",
         "error": null
       },
@@ -275,7 +280,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-03T00:05:13+00:00",
-        "days_remaining": 55,
+        "days_remaining": 54,
         "issuer": "Let's Encrypt",
         "error": null
       },

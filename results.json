@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-20T10:17:05.917890+00:00",
+  "generated_at": "2026-09-20T15:05:14.925205+00:00",
   "sites": [
     {
       "domain": "Grokipaedia.com",
-      "checked_at": "2026-09-20T10:16:45.634916+00:00",
+      "checked_at": "2026-09-20T15:04:58.505061+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 322,
+        "response_time_ms": 151,
         "final_url": "https://grokipaedia.com/",
         "error": null
       },
@@ -47,12 +47,12 @@
     },
     {
       "domain": "IntentBound.com",
-      "checked_at": "2026-09-20T10:16:45.937680+00:00",
+      "checked_at": "2026-09-20T15:04:58.735770+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 151,
+        "response_time_ms": 143,
         "final_url": "https://intentbound.com/",
         "error": null
       },
@@ -91,12 +91,12 @@
     },
     {
       "domain": "AIPayHQ.com",
-      "checked_at": "2026-09-20T10:16:51.799290+00:00",
+      "checked_at": "2026-09-20T15:05:03.398584+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 1660,
+        "response_time_ms": 667,
         "final_url": "https://aipayhq.com/",
         "error": null
       },
@@ -140,12 +140,12 @@
     },
     {
       "domain": "Holidays.HK",
-      "checked_at": "2026-09-20T10:16:56.687180+00:00",
+      "checked_at": "2026-09-20T15:05:06.345473+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 327,
+        "response_time_ms": 82,
         "final_url": "https://holidays.hk/",
         "error": null
       },
@@ -184,12 +184,12 @@
     },
     {
       "domain": "RSIForge.com",
-      "checked_at": "2026-09-20T10:16:57.960288+00:00",
+      "checked_at": "2026-09-20T15:05:06.982272+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 291,
+        "response_time_ms": 71,
         "final_url": "https://rsiforge.com/",
         "error": null
       },
@@ -228,12 +228,12 @@
     },
     {
       "domain": "Weather.KE",
-      "checked_at": "2026-09-20T10:16:59.632077+00:00",
+      "checked_at": "2026-09-20T15:05:12.848667+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 395,
+        "response_time_ms": 329,
         "final_url": "https://weather.ke/",
         "error": null
       },
@@ -249,7 +249,7 @@
         "checked": true,
         "reason": null,
         "expires": "2026-11-23T11:19:16+00:00",
-        "days_remaining": 64
+        "days_remaining": 63
       },
       "links": {
         "checked": 0,
@@ -267,12 +267,12 @@
     },
     {
       "domain": "ChiangmaiGolfCourses.com",
-      "checked_at": "2026-09-20T10:17:05.917833+00:00",
+      "checked_at": "2026-09-20T15:05:14.925168+00:00",
       "overall": "ok",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 715,
+        "response_time_ms": 272,
         "final_url": "https://chiangmaigolfcourses.com/",
         "error": null
       },
@@ -288,7 +288,7 @@
         "checked": true,
         "reason": null,
         "expires": "2026-11-25T10:24:07+00:00",
-        "days_remaining": 66
+        "days_remaining": 65
       },
       "links": {
         "checked": 12,

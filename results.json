@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-23T20:50:47.047616+00:00",
+  "generated_at": "2026-09-24T02:12:32.370535+00:00",
   "sites": [
     {
       "domain": "Grokipaedia.com",
-      "checked_at": "2026-09-23T20:50:35.185825+00:00",
+      "checked_at": "2026-09-24T02:12:10.262953+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 137,
+        "response_time_ms": 329,
         "final_url": "https://grokipaedia.com/",
         "error": null
       },
@@ -47,12 +47,12 @@
     },
     {
       "domain": "IntentBound.com",
-      "checked_at": "2026-09-23T20:50:35.467768+00:00",
+      "checked_at": "2026-09-24T02:12:10.495524+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 118,
+        "response_time_ms": 91,
         "final_url": "https://intentbound.com/",
         "error": null
       },
@@ -91,12 +91,12 @@
     },
     {
       "domain": "AIPayHQ.com",
-      "checked_at": "2026-09-23T20:50:39.415297+00:00",
+      "checked_at": "2026-09-24T02:12:15.615391+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 573,
+        "response_time_ms": 1131,
         "final_url": "https://aipayhq.com/",
         "error": null
       },
@@ -104,7 +104,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-03T00:05:20+00:00",
-        "days_remaining": 40,
+        "days_remaining": 39,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -112,7 +112,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-05-22T00:13:45+00:00",
-        "days_remaining": 240
+        "days_remaining": 239
       },
       "links": {
         "checked": 10,
@@ -140,12 +140,12 @@
     },
     {
       "domain": "Holidays.HK",
-      "checked_at": "2026-09-23T20:50:42.932607+00:00",
+      "checked_at": "2026-09-24T02:12:21.261278+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 222,
+        "response_time_ms": 364,
         "final_url": "https://holidays.hk/",
         "error": null
       },
@@ -153,7 +153,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-03T01:57:08+00:00",
-        "days_remaining": 40,
+        "days_remaining": 39,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -184,12 +184,12 @@
     },
     {
       "domain": "RSIForge.com",
-      "checked_at": "2026-09-23T20:50:43.466750+00:00",
+      "checked_at": "2026-09-24T02:12:22.480226+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 97,
+        "response_time_ms": 323,
         "final_url": "https://rsiforge.com/",
         "error": null
       },
@@ -197,7 +197,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-03T00:04:57+00:00",
-        "days_remaining": 40,
+        "days_remaining": 39,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -228,12 +228,12 @@
     },
     {
       "domain": "Weather.KE",
-      "checked_at": "2026-09-23T20:50:44.712223+00:00",
+      "checked_at": "2026-09-24T02:12:24.707140+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 293,
+        "response_time_ms": 560,
         "final_url": "https://weather.ke/",
         "error": null
       },
@@ -267,12 +267,12 @@
     },
     {
       "domain": "ChiangmaiGolfCourses.com",
-      "checked_at": "2026-09-23T20:50:47.047572+00:00",
+      "checked_at": "2026-09-24T02:12:32.370413+00:00",
       "overall": "ok",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 227,
+        "response_time_ms": 770,
         "final_url": "https://chiangmaigolfcourses.com/",
         "error": null
       },
@@ -280,7 +280,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-11-03T00:05:13+00:00",
-        "days_remaining": 40,
+        "days_remaining": 39,
         "issuer": "Let's Encrypt",
         "error": null
       },

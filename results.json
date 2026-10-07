@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-07T03:17:47.117932+00:00",
+  "generated_at": "2026-10-07T12:18:16.349401+00:00",
   "sites": [
     {
       "domain": "Grokipaedia.com",
-      "checked_at": "2026-10-07T03:17:34.985597+00:00",
+      "checked_at": "2026-10-07T12:17:53.980816+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 248,
+        "response_time_ms": 316,
         "final_url": "https://grokipaedia.com/",
         "error": null
       },
@@ -16,7 +16,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-12-07T09:02:48+00:00",
-        "days_remaining": 61,
+        "days_remaining": 60,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -24,7 +24,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-10-05T08:07:09+00:00",
-        "days_remaining": 363
+        "days_remaining": 362
       },
       "links": {
         "checked": 15,
@@ -47,12 +47,12 @@
     },
     {
       "domain": "IntentBound.com",
-      "checked_at": "2026-10-07T03:17:35.400165+00:00",
+      "checked_at": "2026-10-07T12:17:54.200766+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 155,
+        "response_time_ms": 93,
         "final_url": "https://intentbound.com/",
         "error": null
       },
@@ -68,7 +68,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-01-22T04:21:56+00:00",
-        "days_remaining": 107
+        "days_remaining": 106
       },
       "links": {
         "checked": 0,
@@ -91,12 +91,12 @@
     },
     {
       "domain": "AIPayHQ.com",
-      "checked_at": "2026-10-07T03:17:38.811610+00:00",
+      "checked_at": "2026-10-07T12:18:00.265123+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 399,
+        "response_time_ms": 777,
         "final_url": "https://aipayhq.com/",
         "error": null
       },
@@ -104,7 +104,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2027-01-04T10:44:33+00:00",
-        "days_remaining": 89,
+        "days_remaining": 88,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -140,12 +140,12 @@
     },
     {
       "domain": "Holidays.HK",
-      "checked_at": "2026-10-07T03:17:43.344101+00:00",
+      "checked_at": "2026-10-07T12:18:06.058679+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 208,
+        "response_time_ms": 320,
         "final_url": "https://holidays.hk/",
         "error": null
       },
@@ -153,7 +153,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2027-01-04T10:44:35+00:00",
-        "days_remaining": 89,
+        "days_remaining": 88,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -184,12 +184,12 @@
     },
     {
       "domain": "RSIForge.com",
-      "checked_at": "2026-10-07T03:17:44.389038+00:00",
+      "checked_at": "2026-10-07T12:18:07.559240+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 220,
+        "response_time_ms": 374,
         "final_url": "https://rsiforge.com/",
         "error": null
       },
@@ -197,7 +197,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2027-01-04T10:44:21+00:00",
-        "days_remaining": 89,
+        "days_remaining": 88,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -205,7 +205,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-05-20T07:21:02+00:00",
-        "days_remaining": 225
+        "days_remaining": 224
       },
       "links": {
         "checked": 2,
@@ -228,12 +228,12 @@
     },
     {
       "domain": "Weather.KE",
-      "checked_at": "2026-10-07T03:17:46.715042+00:00",
+      "checked_at": "2026-10-07T12:18:09.998486+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 634,
+        "response_time_ms": 570,
         "final_url": "https://weather.ke/",
         "error": null
       },
@@ -249,7 +249,7 @@
         "checked": true,
         "reason": null,
         "expires": "2026-11-23T11:19:16+00:00",
-        "days_remaining": 47
+        "days_remaining": 46
       },
       "links": {
         "checked": 0,
@@ -267,41 +267,41 @@
     },
     {
       "domain": "ChiangmaiGolfCourses.com",
-      "checked_at": "2026-10-07T03:17:47.117911+00:00",
-      "overall": "bad",
+      "checked_at": "2026-10-07T12:18:16.349350+00:00",
+      "overall": "ok",
       "http": {
-        "ok": false,
-        "status_code": null,
-        "response_time_ms": null,
-        "final_url": null,
-        "error": "HTTPSConnectionPool(host='chiangmaigolfcourses.com', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'chiangmaigolfcourses.com'. (_ssl.c:1010)\")))"
+        "ok": true,
+        "status_code": 200,
+        "response_time_ms": 563,
+        "final_url": "https://chiangmaigolfcourses.com/",
+        "error": null
       },
       "ssl": {
-        "ok": false,
-        "issue_type": "hostname_mismatch",
-        "expires": null,
-        "days_remaining": null,
-        "issuer": null,
-        "error": "Hostname mismatch, certificate is not valid for 'ChiangmaiGolfCourses.com'."
+        "ok": true,
+        "issue_type": null,
+        "expires": "2027-01-05T10:44:09+00:00",
+        "days_remaining": 89,
+        "issuer": "Let's Encrypt",
+        "error": null
       },
       "domain_expiry": {
         "checked": true,
         "reason": null,
         "expires": "2026-11-25T10:24:07+00:00",
-        "days_remaining": 49
+        "days_remaining": 48
       },
       "links": {
-        "checked": 0,
+        "checked": 12,
         "broken_count": 0,
         "broken": [],
-        "error": "no HTML to scan (homepage request failed)"
+        "error": null
       },
       "wordpress": {
-        "detected": false,
-        "version": null,
-        "latest": null,
-        "is_outdated": null,
-        "error": "could not check \u2014 the homepage request itself failed, so no page content was available to search"
+        "detected": true,
+        "version": "7.1.3",
+        "latest": "7.1.3",
+        "is_outdated": false,
+        "error": null
       },
       "wordpress_plugins": {
         "checked": false,

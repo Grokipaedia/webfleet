@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-02T03:22:49.545107+00:00",
+  "generated_at": "2026-11-02T14:11:33.889889+00:00",
   "sites": [
     {
       "domain": "Grokipaedia.com",
-      "checked_at": "2026-11-02T03:22:29.710540+00:00",
+      "checked_at": "2026-11-02T14:11:25.260030+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 326,
+        "response_time_ms": 66,
         "final_url": "https://grokipaedia.com/",
         "error": null
       },
@@ -16,7 +16,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2026-12-07T09:02:48+00:00",
-        "days_remaining": 35,
+        "days_remaining": 34,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -24,7 +24,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-10-05T08:07:09+00:00",
-        "days_remaining": 337
+        "days_remaining": 336
       },
       "links": {
         "checked": 15,
@@ -47,12 +47,12 @@
     },
     {
       "domain": "IntentBound.com",
-      "checked_at": "2026-11-02T03:22:30.157217+00:00",
+      "checked_at": "2026-11-02T14:11:25.426187+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 184,
+        "response_time_ms": 70,
         "final_url": "https://intentbound.com/",
         "error": null
       },
@@ -60,7 +60,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2027-01-12T04:28:36+00:00",
-        "days_remaining": 71,
+        "days_remaining": 70,
         "issuer": "Google Trust Services",
         "error": null
       },
@@ -68,7 +68,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-01-22T04:21:56+00:00",
-        "days_remaining": 81
+        "days_remaining": 80
       },
       "links": {
         "checked": 0,
@@ -91,12 +91,12 @@
     },
     {
       "domain": "AIPayHQ.com",
-      "checked_at": "2026-11-02T03:22:35.974035+00:00",
+      "checked_at": "2026-11-02T14:11:28.751661+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 705,
+        "response_time_ms": 513,
         "final_url": "https://aipayhq.com/",
         "error": null
       },
@@ -104,7 +104,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2027-01-04T10:44:33+00:00",
-        "days_remaining": 63,
+        "days_remaining": 62,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -140,12 +140,12 @@
     },
     {
       "domain": "Holidays.HK",
-      "checked_at": "2026-11-02T03:22:41.721801+00:00",
+      "checked_at": "2026-11-02T14:11:31.117803+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 366,
+        "response_time_ms": 255,
         "final_url": "https://holidays.hk/",
         "error": null
       },
@@ -153,7 +153,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2027-01-04T10:44:35+00:00",
-        "days_remaining": 63,
+        "days_remaining": 62,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -165,8 +165,12 @@
       },
       "links": {
         "checked": 13,
-        "broken_count": 1,
+        "broken_count": 2,
         "broken": [
+          {
+            "url": "https://www.thepeak.com.hk/en",
+            "status_code": 403
+          },
           {
             "url": "https://c137.travelpayouts.com/click?shmarker=744930&promo_id=4110&source_type=customlink&type=click&custom_url=https%3A%2F%2Faffiliate.klook.com%2Fnetwork%2Fen-HK%2Fcity%2F2",
             "status_code": 403
@@ -184,12 +188,12 @@
     },
     {
       "domain": "RSIForge.com",
-      "checked_at": "2026-11-02T03:22:43.097139+00:00",
+      "checked_at": "2026-11-02T14:11:31.363847+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 301,
+        "response_time_ms": 67,
         "final_url": "https://rsiforge.com/",
         "error": null
       },
@@ -197,7 +201,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2027-01-04T10:44:21+00:00",
-        "days_remaining": 63,
+        "days_remaining": 62,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -205,7 +209,7 @@
         "checked": true,
         "reason": null,
         "expires": "2027-05-20T07:21:02+00:00",
-        "days_remaining": 199
+        "days_remaining": 198
       },
       "links": {
         "checked": 2,
@@ -228,12 +232,12 @@
     },
     {
       "domain": "Weather.KE",
-      "checked_at": "2026-11-02T03:22:45.473868+00:00",
+      "checked_at": "2026-11-02T14:11:32.577886+00:00",
       "overall": "bad",
       "http": {
         "ok": false,
         "status_code": 403,
-        "response_time_ms": 422,
+        "response_time_ms": 481,
         "final_url": "https://weather.ke/",
         "error": null
       },
@@ -249,7 +253,7 @@
         "checked": true,
         "reason": null,
         "expires": "2026-11-23T11:19:16+00:00",
-        "days_remaining": 21
+        "days_remaining": 20
       },
       "links": {
         "checked": 0,
@@ -267,12 +271,12 @@
     },
     {
       "domain": "ChiangmaiGolfCourses.com",
-      "checked_at": "2026-11-02T03:22:49.545079+00:00",
+      "checked_at": "2026-11-02T14:11:33.889862+00:00",
       "overall": "warn",
       "http": {
         "ok": true,
         "status_code": 200,
-        "response_time_ms": 434,
+        "response_time_ms": 159,
         "final_url": "https://chiangmaigolfcourses.com/",
         "error": null
       },
@@ -280,7 +284,7 @@
         "ok": true,
         "issue_type": null,
         "expires": "2027-01-05T10:44:09+00:00",
-        "days_remaining": 64,
+        "days_remaining": 63,
         "issuer": "Let's Encrypt",
         "error": null
       },
@@ -288,7 +292,7 @@
         "checked": true,
         "reason": null,
         "expires": "2026-11-25T10:24:07+00:00",
-        "days_remaining": 23
+        "days_remaining": 22
       },
       "links": {
         "checked": 12,
